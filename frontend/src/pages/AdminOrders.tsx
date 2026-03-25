@@ -4,6 +4,7 @@ import { ordersAPI } from '../services/api';
 import { Link } from 'react-router-dom';
 import { AlertCircle, Edit, XCircle } from 'lucide-react';
 import toast from 'react-hot-toast';
+import ClaySelect from '../components/ClaySelect';
 
 // A basic type for the order, can be expanded
 interface Order {
@@ -203,22 +204,12 @@ const AdminOrders: React.FC = () => {
             <h2 className="text-2xl font-extrabold text-gray-700 mb-4 text-gray-800">Update Order Status</h2>
             <p className="mb-4">Order ID: <span className="font-mono text-sm bg-gray-100 p-1 rounded">{selectedOrder._id}</span></p>
             <div className="mb-4">
-              <label htmlFor="status-select" className="block text-sm font-medium text-gray-700 mb-2">
-                New Status:
-              </label>
-              <select
-                id="status-select"
-                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+              <label className="block text-sm font-semibold text-gray-600 mb-2">New Status:</label>
+              <ClaySelect
                 value={newStatus}
-                onChange={(e) => setNewStatus(e.target.value as Order['orderStatus'])}
-                disabled={updateStatusMutation.isLoading}
-              >
-                {validStatuses.map((status) => (
-                  <option key={status} value={status}>
-                    {status.charAt(0).toUpperCase() + status.slice(1)}
-                  </option>
-                ))}
-              </select>
+                onChange={(v) => setNewStatus(v as Order['orderStatus'])}
+                options={validStatuses.map(s => ({ value: s, label: s.charAt(0).toUpperCase() + s.slice(1) }))}
+              />
             </div>
             <div className="flex justify-end space-x-3">
               <button

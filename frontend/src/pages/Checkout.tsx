@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { AlertCircle, Info, ShoppingBag, CheckCircle } from 'lucide-react';
 import toast from 'react-hot-toast';
+import ClaySelect from '../components/ClaySelect';
+import AddressAutocomplete from '../components/AddressAutocomplete';
+import PhoneInput from '../components/PhoneInput';
 import { ordersAPI } from '../services/api';
 import { nigerianStates } from '../utils/nigerianStates';
 
@@ -261,24 +264,12 @@ const Checkout: React.FC = () => {
               <div>
                 <label className="block text-sm font-semibold text-gray-600 mb-2">
                   Phone Number <span className="text-red-500">*</span>
-                  <Tooltip text="Format: +234XXXXXXXXXX or 0XXXXXXXXXXX" />
                 </label>
-                <input
-                  type="tel"
-                  name="phone"
+                <PhoneInput
                   value={formData.phone}
-                  onChange={(e) => handleInputChange('phone', e.target.value)}
-                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition ${
-                    errors.phone && touched.phone ? 'border-red-500' : 'border-gray-300'
-                  }`}
-                  placeholder="+234 803 456 7890"
+                  onChange={(v) => handleInputChange('phone', v)}
+                  error={errors.phone && touched.phone ? errors.phone : undefined}
                 />
-                {errors.phone && touched.phone && (
-                  <p className="text-red-500 text-sm mt-1 flex items-center">
-                    <AlertCircle className="w-4 h-4 mr-1" />
-                    {errors.phone}
-                  </p>
-                )}
               </div>
 
               {/* International Delivery Toggle */}
@@ -347,19 +338,12 @@ const Checkout: React.FC = () => {
                     <label className="block text-sm font-semibold text-gray-600 mb-2">
                       State in Nigeria <span className="text-red-500">*</span>
                     </label>
-                    <select
-                      name="deliveryState"
+                    <ClaySelect
                       value={formData.deliveryState}
-                      onChange={(e) => handleInputChange('deliveryState', e.target.value)}
-                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition ${
-                        errors.deliveryState && touched.deliveryState ? 'border-red-500' : 'border-gray-300'
-                      }`}
-                    >
-                      <option value="">Select a State</option>
-                      {nigerianStates.map(state => (
-                        <option key={state} value={state}>{state}</option>
-                      ))}
-                    </select>
+                      onChange={(v) => handleInputChange('deliveryState', v)}
+                      options={[{ value: '', label: 'Select a State' }, ...nigerianStates.map(s => ({ value: s, label: s }))]}
+                      placeholder="Select a State"
+                    />
                     {errors.deliveryState && touched.deliveryState && (
                       <p className="text-red-500 text-sm mt-1 flex items-center">
                         <AlertCircle className="w-4 h-4 mr-1" />
@@ -371,15 +355,11 @@ const Checkout: React.FC = () => {
                     <label className="block text-sm font-semibold text-gray-600 mb-2">
                       Delivery Address <span className="text-red-500">*</span>
                     </label>
-                    <textarea
-                      name="deliveryAddress"
+                    <AddressAutocomplete
                       value={formData.deliveryAddress}
-                      onChange={(e) => handleInputChange('deliveryAddress', e.target.value)}
-                      rows={3}
-                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition ${
-                        errors.deliveryAddress && touched.deliveryAddress ? 'border-red-500' : 'border-gray-300'
-                      }`}
-                      placeholder="Enter your full delivery address within Nigeria"
+                      onChange={(v) => handleInputChange('deliveryAddress', v)}
+                      state={formData.deliveryState}
+                      placeholder="Start typing your street address..."
                     />
                     {errors.deliveryAddress && touched.deliveryAddress && (
                       <p className="text-red-500 text-sm mt-1 flex items-center">

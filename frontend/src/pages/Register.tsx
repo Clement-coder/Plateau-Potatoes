@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, Check, User, Mail, Lock, Phone, MapPin, Home } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Check, MapPin, Home } from 'lucide-react';
 import toast from 'react-hot-toast';
+import ClaySelect from '../components/ClaySelect';
+import AddressAutocomplete from '../components/AddressAutocomplete';
+import PhoneInput from '../components/PhoneInput';
+import EmailInput from '../components/EmailInput';
+import PasswordInput from '../components/PasswordInput';
+import NameInput from '../components/NameInput';
 import { authAPI } from '../services/api';
 import { nigerianStates } from '../utils/nigerianStates';
 
@@ -12,6 +18,7 @@ export default function Register() {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [formData, setFormData] = useState<FormData>({ name: '', email: '', password: '', phone: '', address: '', state: '' });
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [errors, setErrors] = useState<FormErrors>({});
   const [touched, setTouched] = useState<{[key in keyof FormData]?: boolean}>({});
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -26,8 +33,13 @@ export default function Register() {
       if (!formData.name.trim()) e.name = 'Full name is required';
       if (!formData.email.trim()) e.email = 'Email is required';
       else if (!validateEmail(formData.email)) e.email = 'Invalid email format';
-      if (!formData.password) e.password = 'Password is required';
-      else if (formData.password.length < 6) e.password = 'Password must be at least 6 characters';
+      if (!formData.password) {
+        e.password = 'Password is required';
+      } else if (formData.password.length < 6) {
+        e.password = 'Password must be at least 6 characters';
+      } else if (formData.password !== confirmPassword) {
+        e.password = 'Passwords do not match';
+      }
     }
     if (step === 2) {
       if (!formData.phone.trim()) e.phone = 'Phone number is required';
@@ -100,22 +112,25 @@ export default function Register() {
           {currentStep === 1 && (
             <div className="space-y-5">
               <h2 className="text-2xl font-extrabold text-gray-700 mb-4">Account Details</h2>
-              {([
-                ['Full Name', 'name', 'text', 'Your full name', <User className="input-icon w-4 h-4" />],
-                ['Email Address', 'email', 'email', 'you@example.com', <Mail className="input-icon w-4 h-4" />],
-                ['Password', 'password', 'password', '••••••••', <Lock className="input-icon w-4 h-4" />]
-              ] as const).map(([label, field, type, placeholder, icon]) => (
-                <div key={field}>
-                  <label className="block text-sm font-semibold text-gray-600 mb-2">{label}</label>
-                  <div className="clay-input-wrap">
-                    {icon}
-                    <input type={type} value={formData[field]} placeholder={placeholder}
-                      onChange={(e) => handleInputChange(field, e.target.value)}
-                      className={`clay-input ${errors[field] ? 'ring-2 ring-red-300' : ''}`} />
-                  </div>
-                  {errors[field] && <p className="text-red-500 text-xs mt-1">{errors[field]}</p>}
-                </div>
-              ))}
+              <div>
+                <label className="block text-sm font-semibold text-gray-600 mb-2">Full Name</label>
+                <NameInput value={formData.name} onChange={v => handleInputChange('name', v)} error={errors.name} />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-gray-600 mb-2">Email Address</label>
+                <EmailInput value={formData.email} onChange={v => handleInputChange('email', v)} error={errors.email} />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-gray-600 mb-2">Password</label>
+                <PasswordInput
+                  value={formData.password}
+                  onChange={v => handleInputChange('password', v)}
+                  confirmValue={confirmPassword}
+                  onConfirmChange={setConfirmPassword}
+                  showConfirm
+                  error={errors.password}
+                />
+              </div>
             </div>
           )}
 
@@ -124,34 +139,30 @@ export default function Register() {
               <h2 className="text-2xl font-extrabold text-gray-700 mb-4">Contact Information</h2>
               <div>
                 <label className="block text-sm font-semibold text-gray-600 mb-2">Phone Number</label>
-                <div className="clay-input-wrap">
-                  <Phone className="input-icon w-4 h-4" />
-                  <input type="tel" value={formData.phone} placeholder="+234 803 456 7890"
-                    onChange={(e) => handleInputChange('phone', e.target.value)}
-                    className={`clay-input ${errors.phone ? 'ring-2 ring-red-300' : ''}`} />
-                </div>
-                {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
+                <PhoneInput
+                  value={formData.phone}
+                  onChange={(v) => handleInputChange('phone', v)}
+                  error={errors.phone}
+                />
               </div>
               <div>
                 <label className="block text-sm font-semibold text-gray-600 mb-2">State</label>
-                <div className="clay-input-wrap">
-                  <MapPin className="input-icon w-4 h-4" />
-                  <select value={formData.state} onChange={(e) => handleInputChange('state', e.target.value)}
-                    className={`clay-select ${errors.state ? 'ring-2 ring-red-300' : ''}`}>
-                    <option value="">Select your state</option>
-                    {nigerianStates.map(s => <option key={s} value={s}>{s}</option>)}
-                  </select>
-                </div>
+                <ClaySelect
+                  value={formData.state}
+                  onChange={(v) => handleInputChange('state', v)}
+                  options={[{ value: '', label: 'Select your state' }, ...nigerianStates.map(s => ({ value: s, label: s }))]}
+                  placeholder="Select your state"
+                />
                 {errors.state && <p className="text-red-500 text-xs mt-1">{errors.state}</p>}
               </div>
               <div>
                 <label className="block text-sm font-semibold text-gray-600 mb-2">Delivery Address</label>
-                <div className="clay-input-wrap items-start">
-                  <Home className="input-icon w-4 h-4 mt-3.5" />
-                  <textarea value={formData.address} rows={3} placeholder="Your full delivery address"
-                    onChange={(e) => handleInputChange('address', e.target.value)}
-                    className={`clay-input resize-none ${errors.address ? 'ring-2 ring-red-300' : ''}`} />
-                </div>
+                <AddressAutocomplete
+                  value={formData.address}
+                  onChange={(v) => handleInputChange('address', v)}
+                  state={formData.state}
+                  placeholder="Start typing your street address..."
+                />
                 {errors.address && <p className="text-red-500 text-xs mt-1">{errors.address}</p>}
               </div>
             </div>

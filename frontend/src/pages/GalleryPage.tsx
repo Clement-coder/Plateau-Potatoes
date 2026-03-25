@@ -92,23 +92,24 @@ const GalleryPage: React.FC = () => {
   const [selected, setSelected] = useState<GalleryImage | null>(null);
   const [filter, setFilter] = useState<string>('All');
   const [hoveredId, setHoveredId] = useState<number | null>(null);
+  const [direction, setDirection] = useState<1 | -1>(1);
 
-  const filteredImages = filter === 'All' 
-    ? images 
+  const filteredImages = filter === 'All'
+    ? images
     : images.filter(img => img.category === filter);
 
   const handleNext = () => {
     if (!selected) return;
+    setDirection(1);
     const currentIndex = filteredImages.findIndex(img => img.id === selected.id);
-    const nextIndex = (currentIndex + 1) % filteredImages.length;
-    setSelected(filteredImages[nextIndex]);
+    setSelected(filteredImages[(currentIndex + 1) % filteredImages.length]);
   };
 
   const handlePrev = () => {
     if (!selected) return;
+    setDirection(-1);
     const currentIndex = filteredImages.findIndex(img => img.id === selected.id);
-    const prevIndex = currentIndex === 0 ? filteredImages.length - 1 : currentIndex - 1;
-    setSelected(filteredImages[prevIndex]);
+    setSelected(filteredImages[currentIndex === 0 ? filteredImages.length - 1 : currentIndex - 1]);
   };
 
   return (
@@ -271,42 +272,54 @@ const GalleryPage: React.FC = () => {
             )}
 
             {/* Modal Content */}
-            <div 
-              className="relative max-w-5xl w-full animate-scaleIn"
+            <div
+              className="relative max-w-5xl w-full"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Image Card */}
-              <div 
-                className={`relative h-96 md:h-[600px] rounded-3xl shadow-2xl overflow-hidden bg-gradient-to-br ${selected.gradient} transform transition-all duration-500`}
-              >
-                {/* Animated Background Pattern */}
-                <div className="absolute inset-0 opacity-30">
-                  <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/20 to-white/0 animate-pulse"></div>
-                </div>
-
-                <div className="absolute inset-0 flex items-center justify-center p-8">
-                  <div className="text-center max-w-3xl animate-slideUp">
-                    <div className="bg-white/98 backdrop-blur-xl rounded-3xl p-10 shadow-2xl border border-white/20 transform hover:scale-105 transition-transform duration-500">
-                      <span className="inline-block bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-2 rounded-full text-sm font-bold mb-6 shadow-lg">
-                        {selected.category}
-                      </span>
-                      <h2 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent mb-6 leading-tight">
-                        {selected.title}
-                      </h2>
-                      <p className="text-gray-600 text-lg md:text-2xl leading-relaxed">
-                        {selected.description}
-                      </p>
+              <AnimatePresence mode="wait" custom={direction}>
+                <motion.div
+                  key={selected.id}
+                  custom={direction}
+                  variants={{
+                    enter: (d: number) => ({ x: d * 300, opacity: 0, scale: 0.95 }),
+                    center: { x: 0, opacity: 1, scale: 1 },
+                    exit: (d: number) => ({ x: d * -300, opacity: 0, scale: 0.95 }),
+                  }}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  transition={{ type: 'spring', stiffness: 300, damping: 28 }}
+                >
+                  {/* Image Card */}
+                  <div className={`relative h-96 md:h-[600px] rounded-3xl shadow-2xl overflow-hidden bg-gradient-to-br ${selected.gradient}`}>
+                    <div className="absolute inset-0 opacity-30">
+                      <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/20 to-white/0 animate-pulse"></div>
+                    </div>
+                    <div className="absolute inset-0 flex items-center justify-center p-8">
+                      <div className="text-center max-w-3xl">
+                        <div className="bg-white/98 backdrop-blur-xl rounded-3xl p-10 shadow-2xl border border-white/20">
+                          <span className="inline-block bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-2 rounded-full text-sm font-bold mb-6 shadow-lg">
+                            {selected.category}
+                          </span>
+                          <h2 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent mb-6 leading-tight">
+                            {selected.title}
+                          </h2>
+                          <p className="text-gray-600 text-lg md:text-2xl leading-relaxed">
+                            {selected.description}
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
 
-              {/* Image Counter */}
-              <div className="text-center mt-6">
-                <span className="inline-block bg-white/20 backdrop-blur-md text-white px-6 py-3 rounded-full text-sm font-semibold shadow-lg">
-                  {filteredImages.findIndex(img => img.id === selected.id) + 1} / {filteredImages.length}
-                </span>
-              </div>
+                  {/* Counter */}
+                  <div className="text-center mt-6">
+                    <span className="inline-block bg-white/20 backdrop-blur-md text-white px-6 py-3 rounded-full text-sm font-semibold shadow-lg">
+                      {filteredImages.findIndex(img => img.id === selected.id) + 1} / {filteredImages.length}
+                    </span>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
             </div>
           </div>
         )}

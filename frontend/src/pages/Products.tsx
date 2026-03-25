@@ -4,6 +4,8 @@ import { productsAPI } from '../services/api';
 import ProductCard from '../components/ProductCard';
 import { Search } from 'lucide-react';
 
+import ClaySelect from '../components/ClaySelect';
+
 const Products: React.FC = () => {
   const [filters, setFilters] = useState({ category: '', search: '', page: 1 });
 
@@ -28,13 +30,18 @@ const Products: React.FC = () => {
               onChange={(e) => set('search', e.target.value)}
               className="clay-input pl-10" />
           </div>
-          <select value={filters.category} onChange={(e) => set('category', e.target.value)}
-            className="clay-select min-w-40">
-            <option value="">All Categories</option>
-            <option value="fresh">Fresh</option>
-            <option value="processed">Processed</option>
-            <option value="seeds">Seeds</option>
-          </select>
+          <ClaySelect
+            value={filters.category}
+            onChange={(v) => set('category', v)}
+            options={[
+              { value: '', label: 'All Categories' },
+              { value: 'fresh', label: 'Fresh' },
+              { value: 'processed', label: 'Processed' },
+              { value: 'seeds', label: 'Seeds' },
+            ]}
+            placeholder="All Categories"
+            className="min-w-44"
+          />
         </div>
 
         {isLoading ? (

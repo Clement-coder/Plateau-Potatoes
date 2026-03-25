@@ -4,6 +4,7 @@ import { productsAPI, uploadAPI } from '../services/api';
 import { Product } from '../types';
 import { UploadCloud, X, Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
+import ClaySelect from '../components/ClaySelect';
 
 const AdminProducts: React.FC = () => {
   const queryClient = useQueryClient();
@@ -11,6 +12,7 @@ const AdminProducts: React.FC = () => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [existingImages, setExistingImages] = useState<string[]>([]);
   const [isUploading, setIsUploading] = useState(false);
+  const [category, setCategory] = useState('');
 
   // When a product is selected for editing, populate the form and existing images
   useEffect(() => {
@@ -228,21 +230,19 @@ const AdminProducts: React.FC = () => {
 
           {/* Category */}
           <div>
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="category">
-              Category
-            </label>
-            <select
-              id="category"
-              name="category"
-              defaultValue={selectedProduct?.category || ''}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              required
-            >
-              <option value="">Select Category</option>
-              <option value="fresh">Fresh</option>
-              <option value="processed">Processed</option>
-              <option value="seeds">Seeds</option>
-            </select>
+            <label className="block text-gray-700 text-sm font-bold mb-2">Category</label>
+            <ClaySelect
+              value={category || selectedProduct?.category || ''}
+              onChange={setCategory}
+              options={[
+                { value: '', label: 'Select Category' },
+                { value: 'fresh', label: 'Fresh' },
+                { value: 'processed', label: 'Processed' },
+                { value: 'seeds', label: 'Seeds' },
+              ]}
+              placeholder="Select Category"
+            />
+            <input type="hidden" name="category" value={category || selectedProduct?.category || ''} />
           </div>
 
           {/* Description */}

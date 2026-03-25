@@ -1,23 +1,36 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
-import { LogIn, Loader2, Mail, Lock } from 'lucide-react';
+import { LogIn, Loader2 } from 'lucide-react';
 import { authAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
-
-interface LoginForm { email: string; password: string; }
+import EmailInput from '../components/EmailInput';
+import PasswordInput from '../components/PasswordInput';
 
 const Login: React.FC = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm<LoginForm>();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
   const { login } = useAuth();
   const navigate = useNavigate();
 
   const loginMutation = useMutation({
     mutationFn: authAPI.login,
     onSuccess: (response) => { login(response.data.token, response.data.user); navigate('/'); },
-    onError: (error: any) => { alert(error.response?.data?.message || 'Login failed'); }
+    onError: (error: any) => {
+      setErrors({ password: error.response?.data?.message || 'Invalid email or password' });
+    }
   });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const errs: typeof errors = {};
+    if (!email) errs.email = 'Email is required';
+    if (!password) errs.password = 'Password is required';
+    if (Object.keys(errs).length) { setErrors(errs); return; }
+    setErrors({});
+    loginMutation.mutate({ email, password });
+  };
 
   return (
     <div className="clay-page flex items-center justify-center px-4 py-16">
@@ -31,24 +44,14 @@ const Login: React.FC = () => {
           <p className="text-gray-400 mt-1">Sign in to your account</p>
         </div>
 
-        <form onSubmit={handleSubmit((d) => loginMutation.mutate(d))} className="space-y-5">
+        <form onSubmit={handleSubmit} className="space-y-5">
           <div>
             <label className="block text-sm font-semibold text-gray-600 mb-2">Email</label>
-            <div className="clay-input-wrap">
-              <Mail className="input-icon w-4 h-4" />
-              <input type="email" {...register('email', { required: 'Email is required' })}
-                className="clay-input" placeholder="you@example.com" />
-            </div>
-            {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
+            <EmailInput value={email} onChange={setEmail} error={errors.email} />
           </div>
           <div>
             <label className="block text-sm font-semibold text-gray-600 mb-2">Password</label>
-            <div className="clay-input-wrap">
-              <Lock className="input-icon w-4 h-4" />
-              <input type="password" {...register('password', { required: 'Password is required' })}
-                className="clay-input" placeholder="••••••••" />
-            </div>
-            {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>}
+            <PasswordInput value={password} onChange={setPassword} error={errors.password} name="password" />
           </div>
           <button type="submit" disabled={loginMutation.isPending} className="clay-btn w-full py-4 text-base mt-2">
             {loginMutation.isPending
