@@ -160,13 +160,13 @@ const AdminProducts: React.FC = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6">Admin Product Management</h1>
+      <h1 className="text-3xl font-extrabold text-gray-700 mb-6">Admin Product Management</h1>
       
       {/* Product List */}
       <div className="bg-white shadow-md rounded-lg p-6 mb-8">
         <h2 className="text-2xl font-semibold mb-4">Existing Products</h2>
         <div className="overflow-x-auto">
-          <table className="min-w-full bg-white">
+          <table className="clay-table w-full min-w-full bg-white">
             <thead>
               <tr>
                 <th className="py-2 px-4 border-b">Name</th>

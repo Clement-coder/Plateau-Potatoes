@@ -1,214 +1,288 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowRight, Truck, Shield, Star, MapPin, Users, TrendingUp } from 'lucide-react';
+import { ArrowRight, Truck, Shield, Star, MapPin, Users, TrendingUp, Leaf, CheckCircle, ShoppingBag, Package, Smile, CreditCard, Building2, Smartphone } from 'lucide-react';
 
 const Home = () => {
   const [scrollY, setScrollY] = useState(0);
-
   useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const h = () => setScrollY(window.scrollY);
+    window.addEventListener('scroll', h);
+    return () => window.removeEventListener('scroll', h);
   }, []);
 
   const features = [
-    {
-      icon: <Truck className="w-8 h-8" />,
-      title: "Fast Delivery",
-      description: "24-48 hour delivery to major cities across Nigeria"
-    },
-    {
-      icon: <Shield className="w-8 h-8" />,
-      title: "Quality Guaranteed",
-      description: "100% fresh from Jos Plateau farms, or your money back"
-    },
-    {
-      icon: <Star className="w-8 h-8" />,
-      title: "Premium Grade",
-      description: "Hand-picked, sorted, and packed with care"
-    }
+    { icon: <Truck className="w-7 h-7 anim-truck" />, title: "Fast Delivery", description: "24-48 hour delivery to major cities across Nigeria", color: '#2cb67d' },
+    { icon: <Shield className="w-7 h-7 anim-shield" />, title: "Quality Guaranteed", description: "100% fresh from Jos Plateau farms, or your money back", color: '#f59e0b' },
+    { icon: <Star className="w-7 h-7 anim-star" />, title: "Premium Grade", description: "Hand-picked, sorted, and packed with care", color: '#8b5cf6' },
+    { icon: <Leaf className="w-7 h-7 anim-leaf" />, title: "Farm Direct", description: "No middlemen — straight from Jos Plateau to your door", color: '#ef4444' },
   ];
 
   const stats = [
-    { number: "5000+", label: "Happy Customers" },
-    { number: "50+", label: "Retail Partners" },
-    { number: "15", label: "States Covered" },
-    { number: "99%", label: "Satisfaction Rate" }
+    { number: "5,000+", label: "Happy Customers", icon: <Users className="w-6 h-6 anim-users" />, color: '#2cb67d' },
+    { number: "50+", label: "Retail Partners", icon: <CheckCircle className="w-6 h-6 anim-check" />, color: '#f59e0b' },
+    { number: "15", label: "States Covered", icon: <MapPin className="w-6 h-6 anim-mappin" />, color: '#8b5cf6' },
+    { number: "99%", label: "Satisfaction Rate", icon: <TrendingUp className="w-6 h-6 anim-trending" />, color: '#ef4444' },
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-green-50 to-emerald-50">
-      {/* Hero Section with Parallax Effect */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Animated Background Elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div 
-            className="absolute w-96 h-96 bg-green-200/30 rounded-full blur-3xl -top-48 -left-48 animate-pulse"
-            style={{ transform: `translateY(${scrollY * 0.5}px)` }}
-          />
-          <div 
-            className="absolute w-96 h-96 bg-amber-200/30 rounded-full blur-3xl top-1/4 -right-48 animate-pulse"
-            style={{ transform: `translateY(${scrollY * 0.3}px)` }}
-          />
-          <div 
-            className="absolute w-64 h-64 bg-emerald-200/30 rounded-full blur-3xl bottom-1/4 left-1/3 animate-pulse"
-            style={{ transform: `translateY(${scrollY * 0.4}px)` }}
-          />
+    <div className="clay-page">
+
+      {/* ── HERO ── */}
+      <section className="relative min-h-screen flex items-center overflow-hidden px-6 py-10"
+        style={{ background: 'linear-gradient(150deg, #f0fdf4 0%, #e8f5e9 100%)' }}>
+
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute w-[420px] h-[420px] rounded-full blur-3xl opacity-25"
+            style={{ background: 'radial-gradient(circle, #bbf7d0, transparent)', top: '-6rem', left: '-6rem', transform: `translateY(${scrollY * 0.3}px)` }} />
+          <div className="absolute w-[300px] h-[300px] rounded-full blur-3xl opacity-15"
+            style={{ background: 'radial-gradient(circle, #a7f3d0, transparent)', bottom: '10%', right: '-4rem', transform: `translateY(${scrollY * 0.2}px)` }} />
         </div>
 
-        {/* Main Content */}
-        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          {/* Badge */}
-          <div className="inline-flex items-center space-x-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg mb-8 animate-fade-in">
-            <MapPin className="w-4 h-4 text-green-600" />
-            <span className="text-sm font-medium text-gray-700">Direct from Jos Plateau Farms</span>
-          </div>
+        <div className="relative z-10 max-w-6xl mx-auto w-full grid lg:grid-cols-2 gap-16 items-center">
+          {/* LEFT */}
+          <div>
+            <div className="clay-badge mb-6 w-fit text-sm px-4 py-2">
+              <MapPin className="w-3.5 h-3.5" /> Direct from Jos Plateau Farms
+            </div>
 
-          {/* Main Heading with Gradient */}
-          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold mb-6 leading-tight">
-            <span className="bg-gradient-to-r from-green-700 via-emerald-600 to-green-800 bg-clip-text text-transparent">
-              Fresh Plateau Potatoes
-            </span>
-            <br />
-            <span className="text-gray-800">
-              Delivered Daily
-            </span>
-          </h1>
-
-          {/* Subtitle */}
-          <p className="text-xl sm:text-2xl md:text-3xl text-gray-700 mb-12 max-w-3xl mx-auto font-light leading-relaxed">
-            Premium quality potatoes from Nigeria's finest farms, 
-            <span className="font-semibold text-green-700"> delivered fresh</span> to your doorstep
-          </p>
-
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-            <a
-              href="/products"
-              className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-gradient-to-r from-green-600 to-emerald-600 rounded-full overflow-hidden shadow-2xl transition-all duration-300 hover:shadow-green-500/50 hover:scale-105 w-full sm:w-auto"
-            >
-              <span className="relative z-10 flex items-center">
-                Shop Now
-                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold mb-6 leading-tight tracking-tight">
+              <span style={{ background: 'linear-gradient(135deg, #14532d, #2cb67d)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                Fresh Plateau
               </span>
-              <div className="absolute inset-0 bg-gradient-to-r from-green-700 to-emerald-700 opacity-0 group-hover:opacity-100 transition-opacity" />
-            </a>
-            
-            <a
-              href="/register"
-              className="group inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-green-700 bg-white rounded-full shadow-xl transition-all duration-300 hover:shadow-2xl hover:scale-105 border-2 border-green-600/20 w-full sm:w-auto"
-            >
-              <Users className="mr-2 w-5 h-5" />
-              Become a Retailer
-            </a>
+              <br />
+              <span style={{ background: 'linear-gradient(135deg, #1a9e68, #4ade80)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                Potatoes
+              </span>
+              <br />
+              <span className="text-gray-600 text-3xl sm:text-4xl md:text-5xl font-bold">Delivered Daily</span>
+            </h1>
+
+            <p className="text-lg text-gray-500 mb-10 max-w-lg font-light leading-relaxed">
+              Premium quality potatoes from Nigeria's finest farms,{' '}
+              <span className="font-semibold text-green-700">delivered fresh</span> to your doorstep
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 mb-10">
+              <a href="/products" className="clay-btn text-base px-10 py-4">
+                Shop Now <ArrowRight className="w-5 h-5" />
+              </a>
+              <a href="/register" className="clay-btn-secondary text-base px-10 py-4">
+                <Users className="w-5 h-5" /> Become a Retailer
+              </a>
+            </div>
+
+            <div className="flex flex-wrap gap-3">
+              {[
+                [<Shield className="w-3.5 h-3.5" />, 'Quality Guaranteed'],
+                [<Truck className="w-3.5 h-3.5" />, 'Free Delivery on ₦10,000+'],
+                [<Star className="w-3.5 h-3.5 fill-yellow-500 text-yellow-500" />, '4.9/5 Rating'],
+              ].map(([icon, text], i) => (
+                <div key={i} className="clay-badge text-xs px-3 py-1.5">
+                  {icon as React.ReactNode} <span>{text as string}</span>
+                </div>
+              ))}
+            </div>
           </div>
 
-          {/* Trust Indicators */}
-          <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-gray-600">
-            <div className="flex items-center space-x-2">
-              <Shield className="w-5 h-5 text-green-600" />
-              <span>Quality Guaranteed</span>
+          {/* RIGHT — visual card */}
+          <div className="flex items-center justify-center">
+            <div className="clay-card w-full max-w-sm text-center py-12"
+              style={{ background: 'linear-gradient(135deg, #d4edda, #c3e6cb)', boxShadow: '10px 10px 28px rgba(44,182,125,0.25), -6px -6px 18px rgba(255,255,255,0.9)' }}>
+              <div className="text-8xl mb-6">🥔</div>
+              <h3 className="text-2xl font-extrabold text-green-900 mb-2">Farm to Doorstep</h3>
+              <p className="text-green-700 text-sm leading-relaxed mb-6">Handpicked from the cool highlands of Jos Plateau, packed fresh and shipped to you.</p>
+              <div className="grid grid-cols-2 gap-3">
+                {[['5,000+', 'Customers'], ['15', 'States'], ['99%', 'Satisfaction'], ['48hr', 'Delivery']].map(([n, l]) => (
+                  <div key={l} className="clay-card !p-3">
+                    <div className="text-xl font-extrabold text-green-800">{n}</div>
+                    <div className="text-xs text-gray-500">{l}</div>
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="flex items-center space-x-2">
-              <Truck className="w-5 h-5 text-green-600" />
-              <span>Free Delivery on Orders ₦10,000+</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Star className="w-5 h-5 text-yellow-500 fill-yellow-500" />
-              <span>4.9/5 Customer Rating</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <div className="w-6 h-10 border-2 border-green-600 rounded-full flex items-start justify-center p-2">
-            <div className="w-1 h-3 bg-green-600 rounded-full animate-pulse" />
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 relative">
+      {/* ── FEATURES ── */}
+      <section className="clay-section">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 text-gray-800">
+          <h2 className="text-4xl font-extrabold text-center mb-3 text-gray-700">
             Why Choose <span className="text-green-600">NaijaSpuds</span>?
           </h2>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
-              <div
-                key={index}
-                className="group bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-green-100"
-              >
-                <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mb-6 text-white group-hover:scale-110 transition-transform shadow-lg">
-                  {feature.icon}
+          <p className="text-center text-gray-400 mb-12 text-lg">Everything you need, nothing you don't</p>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {features.map((f, i) => (
+              <div key={i} className="clay-card group hover:-translate-y-2 transition-transform duration-200">
+                <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-5 text-white"
+                  style={{ background: `linear-gradient(135deg, ${f.color}cc, ${f.color})`, boxShadow: `4px 4px 14px ${f.color}55` }}>
+                  {f.icon}
                 </div>
-                <h3 className="2xl font-bold mb-4 text-gray-800">{feature.title}</h3>
-                <p className="text-gray-600 leading-relaxed">{feature.description}</p>
+                <h3 className="text-lg font-bold text-gray-700 mb-2">{f.title}</h3>
+                <p className="text-gray-400 text-sm leading-relaxed">{f.description}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-green-600 to-emerald-600 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS1vcGFjaXR5PSIwLjEiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-30" />
-        
-        <div className="max-w-6xl mx-auto relative z-10">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {stats.map((stat, index) => (
-              <div key={index} className="text-center">
-                <div className="text-4xl md:text-5xl font-extrabold text-white mb-2 flex items-center justify-center">
-                  {stat.number}
-                  <TrendingUp className="w-6 h-6 ml-2 text-yellow-300" />
+      {/* ── STATS ── */}
+      <section className="clay-section pt-0">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+            {stats.map((s, i) => (
+              <div key={i} className="clay-card group hover:-translate-y-2 transition-transform duration-200 text-center">
+                <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4 mx-auto text-white"
+                  style={{ background: `linear-gradient(135deg, ${s.color}cc, ${s.color})`, boxShadow: `4px 4px 14px ${s.color}55` }}>
+                  {s.icon}
                 </div>
-                <div className="text-green-100 font-medium text-sm md:text-base">{stat.label}</div>
+                <div className="text-3xl font-extrabold text-gray-700 mb-1">{s.number}</div>
+                <div className="text-gray-400 text-sm font-medium">{s.label}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto bg-gradient-to-br from-green-700 to-emerald-600 rounded-3xl p-12 text-center shadow-2xl relative overflow-hidden">
-          <div className="absolute inset-0 bg-white/5 backdrop-blur-sm" />
-          
-          <div className="relative z-10">
-            <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
-              Ready to Experience Fresh?
-            </h2>
-            <p className="text-xl text-green-100 mb-8 max-w-2xl mx-auto">
-              Join thousands of satisfied customers enjoying premium Plateau potatoes delivered fresh daily
-            </p>
-            <a
-              href="/products"
-              className="inline-flex items-center justify-center px-10 py-5 text-lg font-bold text-green-700 bg-white rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105"
-            >
-              Start Shopping Today
-              <ArrowRight className="ml-2 w-5 h-5" />
+      {/* ── HOW IT WORKS ── */}
+      <section className="clay-section pt-0">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-4xl font-extrabold text-center mb-3 text-gray-700">How It Works</h2>
+          <p className="text-center text-gray-400 mb-12 text-lg">From farm to your door in 3 simple steps</p>
+          <div className="grid sm:grid-cols-3 gap-6 relative">
+            {/* connector line */}
+            <div className="hidden sm:block absolute top-10 left-1/4 right-1/4 h-0.5 bg-gradient-to-r from-green-200 via-green-400 to-green-200 z-0" />
+            {[
+              { icon: <ShoppingBag className="w-7 h-7 anim-bag" />, step: '01', title: 'Place Your Order', desc: 'Browse our fresh catalogue and order online in minutes', color: '#2cb67d' },
+              { icon: <Package className="w-7 h-7 anim-package" />, step: '02', title: 'We Pack Fresh', desc: 'Your potatoes are hand-sorted and packed same day', color: '#f59e0b' },
+              { icon: <Smile className="w-7 h-7 anim-smile" />, step: '03', title: 'Delivered to You', desc: 'Fast delivery to your doorstep within 24–48 hours', color: '#8b5cf6' },
+            ].map((s, i) => (
+              <div key={i} className="clay-card group text-center relative z-10 hover:-translate-y-2 transition-transform duration-200">
+                <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4 mx-auto text-white"
+                  style={{ background: `linear-gradient(135deg, ${s.color}cc, ${s.color})`, boxShadow: `4px 4px 14px ${s.color}55` }}>
+                  {s.icon}
+                </div>
+                <span className="text-xs font-bold text-gray-300 tracking-widest">{s.step}</span>
+                <h3 className="text-lg font-bold text-gray-700 mt-1 mb-2">{s.title}</h3>
+                <p className="text-gray-400 text-sm leading-relaxed">{s.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── TESTIMONIALS ── */}
+      <section className="clay-section pt-0">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-4xl font-extrabold text-center mb-3 text-gray-700">What Customers Say</h2>
+          <p className="text-center text-gray-400 mb-12 text-lg">Real reviews from real buyers across Nigeria</p>
+          <div className="grid sm:grid-cols-3 gap-6">
+            {[
+              { name: 'Amaka O.', location: 'Lagos', text: 'Best potatoes I\'ve ever bought. Arrived fresh and well-packaged. Will definitely order again!', rating: 5 },
+              { name: 'Emeka D.', location: 'Abuja', text: 'We supply our restaurant from Plateau Potatoes NG. Consistent quality every single time.', rating: 5 },
+              { name: 'Fatima B.', location: 'Kano', text: 'Ordered for my shop and customers love them. Great price for the quality.', rating: 5 },
+            ].map((t, i) => (
+              <div key={i} className="clay-card hover:-translate-y-2 transition-transform duration-200">
+                <div className="flex gap-0.5 mb-4">
+                  {Array.from({ length: t.rating }).map((_, j) => (
+                    <Star key={j} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                  ))}
+                </div>
+                <p className="text-gray-500 text-sm leading-relaxed mb-5 italic">"{t.text}"</p>
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-xl flex items-center justify-center text-white font-bold text-sm"
+                    style={{ background: 'linear-gradient(135deg, #2cb67d, #1a9e68)' }}>
+                    {t.name[0]}
+                  </div>
+                  <div>
+                    <p className="font-bold text-gray-700 text-sm">{t.name}</p>
+                    <p className="text-gray-400 text-xs flex items-center gap-1"><MapPin className="w-3 h-3" />{t.location}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── RETAILER CTA ── */}
+      <section className="clay-section pt-0">
+        <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-6">
+          {/* Retailer */}
+          <div className="clay-card group hover:-translate-y-1 transition-transform duration-200"
+            style={{ background: 'linear-gradient(135deg, #f0fdf4, #e8f5e9)', boxShadow: '8px 8px 20px rgba(163,177,198,0.45), -6px -6px 16px rgba(255,255,255,0.9)' }}>
+            <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-5 text-white"
+              style={{ background: 'linear-gradient(135deg, #2cb67d, #1a9e68)', boxShadow: '4px 4px 14px rgba(44,182,125,0.4)' }}>
+              <Building2 className="w-7 h-7 anim-building" />
+            </div>
+            <h3 className="text-2xl font-extrabold text-green-900 mb-2">Are You a Retailer?</h3>
+            <p className="text-green-700 text-sm leading-relaxed mb-6">Join 50+ retail partners getting bulk supply at wholesale prices. Consistent stock, reliable delivery.</p>
+            <a href="/register" className="clay-btn w-fit">
+              <Users className="w-4 h-4" /> Become a Partner
             </a>
           </div>
+
+          {/* Payment */}
+          <div className="clay-card group hover:-translate-y-1 transition-transform duration-200">
+            <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-5 text-white"
+              style={{ background: 'linear-gradient(135deg, #8b5cf6cc, #8b5cf6)', boxShadow: '4px 4px 14px rgba(139,92,246,0.4)' }}>
+              <CreditCard className="w-7 h-7 anim-card" />
+            </div>
+            <h3 className="text-2xl font-extrabold text-gray-700 mb-2">Secure Payments</h3>
+            <p className="text-gray-400 text-sm leading-relaxed mb-6">Pay safely with Paystack — card, bank transfer, or USSD. Your transactions are always protected.</p>
+            <div className="flex flex-wrap gap-2">
+              {['💳 Card', '🏦 Bank Transfer', '📱 USSD', '💰 Pay on Delivery'].map(m => (
+                <span key={m} className="clay-badge text-xs">{m}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA ── */}
+      <section className="clay-section pt-0">
+        <div className="max-w-3xl mx-auto clay-card text-center">
+          <div className="text-5xl mb-4">🥔</div>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-gray-700 mb-4">
+            Ready to Experience Fresh?
+          </h2>
+          <p className="text-gray-400 mb-8 text-lg leading-relaxed">
+            Join thousands of satisfied customers enjoying premium Plateau potatoes delivered fresh daily
+          </p>
+          <a href="/products" className="clay-btn text-lg px-12 py-5 mx-auto">
+            Start Shopping Today <ArrowRight className="w-5 h-5" />
+          </a>
         </div>
       </section>
 
       <style>{`
-        @keyframes fade-in {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        
-        .animate-fade-in {
-          animation: fade-in 1s ease-out;
-        }
-      `}</style>
+      @keyframes icon-truck    { 0%,100%{transform:translateX(0)} 30%{transform:translateX(7px)} 60%{transform:translateX(-3px)} }
+      @keyframes icon-shield   { 0%,100%{transform:scale(1)} 50%{transform:scale(1.25)} }
+      @keyframes icon-star     { 0%,100%{transform:rotate(0) scale(1)} 50%{transform:rotate(20deg) scale(1.25)} }
+      @keyframes icon-leaf     { 0%,100%{transform:rotate(0)} 40%{transform:rotate(-18deg) scale(1.1)} 70%{transform:rotate(10deg)} }
+      @keyframes icon-users    { 0%,100%{transform:scale(1) translateY(0)} 50%{transform:scale(1.15) translateY(-3px)} }
+      @keyframes icon-check    { 0%,100%{transform:scale(1) rotate(0)} 50%{transform:scale(1.2) rotate(12deg)} }
+      @keyframes icon-mappin   { 0%,100%{transform:translateY(0)} 40%{transform:translateY(-6px)} 65%{transform:translateY(-2px)} }
+      @keyframes icon-trending { 0%,100%{transform:translateY(0) scale(1)} 50%{transform:translateY(-5px) scale(1.15)} }
+      @keyframes icon-bag      { 0%,100%{transform:scale(1) rotate(0)} 40%{transform:scale(1.15) rotate(-10deg)} 70%{transform:scale(1.1) rotate(6deg)} }
+      @keyframes icon-package  { 0%,100%{transform:scale(1)} 30%{transform:scale(0.88)} 65%{transform:scale(1.15)} }
+      @keyframes icon-smile    { 0%,100%{transform:scale(1) rotate(0)} 50%{transform:scale(1.2) rotate(12deg)} }
+      @keyframes icon-building { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+      @keyframes icon-card     { 0%,100%{transform:translateX(0) rotate(0)} 40%{transform:translateX(5px) rotate(-6deg)} 70%{transform:translateX(-2px) rotate(3deg)} }
+
+      .group:hover .anim-truck    { animation: icon-truck    0.6s ease-in-out; }
+      .group:hover .anim-shield   { animation: icon-shield   0.5s ease-in-out; }
+      .group:hover .anim-star     { animation: icon-star     0.5s ease-in-out; }
+      .group:hover .anim-leaf     { animation: icon-leaf     0.6s ease-in-out; }
+      .group:hover .anim-users    { animation: icon-users    0.5s ease-in-out; }
+      .group:hover .anim-check    { animation: icon-check    0.5s ease-in-out; }
+      .group:hover .anim-mappin   { animation: icon-mappin   0.5s ease-in-out; }
+      .group:hover .anim-trending { animation: icon-trending 0.5s ease-in-out; }
+      .group:hover .anim-bag      { animation: icon-bag      0.6s ease-in-out; }
+      .group:hover .anim-package  { animation: icon-package  0.5s ease-in-out; }
+      .group:hover .anim-smile    { animation: icon-smile    0.5s ease-in-out; }
+      .group:hover .anim-building { animation: icon-building 0.5s ease-in-out; }
+      .group:hover .anim-card     { animation: icon-card     0.6s ease-in-out; }
+    `}</style>
     </div>
   );
 };

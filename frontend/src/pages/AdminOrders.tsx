@@ -93,8 +93,8 @@ const AdminOrders: React.FC = () => {
   const validStatuses: Order['orderStatus'][] = ['pending', 'processing', 'shipped', 'delivered', 'cancelled']; // Changed from status to orderStatus
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6 text-gray-800">Manage Orders</h1>
+    <div className="max-w-7xl mx-auto px-4 py-10">
+      <h1 className="text-3xl font-extrabold text-gray-700 mb-6 text-gray-800">Manage Orders</h1>
 
       {isError && (
         <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6" role="alert">
@@ -104,7 +104,7 @@ const AdminOrders: React.FC = () => {
       )}
 
       <div className="bg-white shadow-md rounded-lg overflow-x-auto">
-        <table className="min-w-full leading-normal">
+        <table className="clay-table w-full min-w-full leading-normal">
           <thead>
             <tr>
               <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
@@ -192,7 +192,7 @@ const AdminOrders: React.FC = () => {
       {/* Status Update Modal */}
       {isModalOpen && selectedOrder && (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center p-4 z-50">
-          <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-sm relative">
+          <div className="clay-card-xl p-6 w-full max-w-sm relative">
             <button
               onClick={closeModal}
               className="absolute top-3 right-3 text-gray-400 hover:text-gray-600"
@@ -200,7 +200,7 @@ const AdminOrders: React.FC = () => {
             >
               <XCircle className="w-6 h-6" />
             </button>
-            <h2 className="text-2xl font-bold mb-4 text-gray-800">Update Order Status</h2>
+            <h2 className="text-2xl font-extrabold text-gray-700 mb-4 text-gray-800">Update Order Status</h2>
             <p className="mb-4">Order ID: <span className="font-mono text-sm bg-gray-100 p-1 rounded">{selectedOrder._id}</span></p>
             <div className="mb-4">
               <label htmlFor="status-select" className="block text-sm font-medium text-gray-700 mb-2">

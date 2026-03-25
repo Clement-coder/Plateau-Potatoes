@@ -56,7 +56,7 @@ const OrderTracking: React.FC = () => {
           <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
           <h2 className="text-xl font-bold text-gray-800">No Order ID Provided</h2>
           <p className="text-gray-600 mt-2">Please navigate from your order history or provide a valid order ID.</p>
-          <Link to="/account" className="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Go to Account</Link>
+          <Link to="/account" className="mt-4 inline-block clay-btn !px-4 !py-2 text-sm">Go to Account</Link>
         </div>
       </div>
     );
@@ -78,7 +78,7 @@ const OrderTracking: React.FC = () => {
           <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
           <h2 className="text-xl font-bold text-gray-800">Error Loading Order</h2>
           <p className="text-gray-600 mt-2">Could not retrieve order details. Please try again later.</p>
-          <Link to="/account" className="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Go to Account</Link>
+          <Link to="/account" className="mt-4 inline-block clay-btn !px-4 !py-2 text-sm">Go to Account</Link>
         </div>
       </div>
     );
@@ -107,9 +107,9 @@ const OrderTracking: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 p-4 sm:p-6 lg:p-8">
-      <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-xl p-6 sm:p-8">
+      <div className="max-w-4xl mx-auto clay-card-xl p-6 sm:p-8">
         <div className="flex justify-between items-center mb-6 border-b pb-4">
-          <h1 className="text-3xl font-bold text-gray-800 flex items-center">
+          <h1 className="text-3xl font-extrabold text-gray-700 text-gray-800 flex items-center">
             <Package className="w-8 h-8 mr-3 text-blue-600" />
             Order Details <span className="text-xl font-normal ml-3">#{order._id.substring(0, 10)}...</span>
           </h1>

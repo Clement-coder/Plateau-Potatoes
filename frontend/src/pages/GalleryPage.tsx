@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, ZoomIn, ChevronLeft, ChevronRight, Camera } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface GalleryImage {
   id: number;
@@ -135,17 +136,23 @@ const GalleryPage: React.FC = () => {
         </div>
 
         {/* Filter Tabs */}
-        <div className="flex flex-wrap justify-center gap-3 mb-16">
+        <div className="flex flex-wrap justify-center gap-1 mb-16 p-2 rounded-3xl w-fit mx-auto"
+          style={{ background: 'linear-gradient(135deg, #f5faf6, #edf7ef)', boxShadow: '6px 6px 16px rgba(163,177,198,0.4), -4px -4px 12px rgba(255,255,255,0.8)' }}>
           {categories.map(cat => (
             <button
               key={cat}
               onClick={() => setFilter(cat)}
-              className={`px-8 py-3 rounded-full font-semibold transition-all duration-300 transform ${
-                filter === cat
-                  ? 'bg-gradient-to-r from-green-700 to-green-600 text-white shadow-xl scale-110 ring-4 ring-green-200'
-                  : 'bg-white text-gray-700 hover:bg-green-50 hover:text-green-700 hover:scale-105 shadow-lg hover:shadow-xl'
-              }`}
+              className="relative px-6 py-2.5 rounded-2xl font-semibold text-sm transition-colors duration-150 z-10"
+              style={{ color: filter === cat ? 'white' : '#4b7a5e' }}
             >
+              {filter === cat && (
+                <motion.div
+                  layoutId="gallery-pill"
+                  className="absolute inset-0 rounded-2xl z-[-1]"
+                  style={{ background: 'linear-gradient(135deg, #2cb67d, #1a9e68)', boxShadow: '4px 4px 10px rgba(44,182,125,0.4), -2px -2px 6px rgba(255,255,255,0.5)' }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+                />
+              )}
               {cat}
             </button>
           ))}
@@ -191,7 +198,7 @@ const GalleryPage: React.FC = () => {
               {/* Content Overlay with Slide-Up Animation */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-transparent translate-y-8 group-hover:translate-y-0 transition-all duration-500 flex flex-col justify-end p-8">
                 {/* Title with Slide Animation */}
-                <h3 className="text-white text-3xl font-bold mb-3 transform translate-y-12 group-hover:translate-y-0 transition-all duration-500 delay-100">
+                <h3 className="text-white text-3xl font-extrabold text-gray-700 mb-3 transform translate-y-12 group-hover:translate-y-0 transition-all duration-500 delay-100">
                   {img.title}
                 </h3>
                 
@@ -239,35 +246,26 @@ const GalleryPage: React.FC = () => {
           >
             {/* Close Button */}
             <button 
-              className="absolute top-8 right-8 text-white/80 hover:text-white transition-all z-50 bg-white/10 hover:bg-white/20 rounded-full p-3 transform hover:scale-110 hover:rotate-90 duration-300 shadow-xl"
-              onClick={(e) => {
-                e.stopPropagation();
-                setSelected(null);
-              }}
+              className="absolute top-6 right-6 z-50 clay-btn-secondary !px-3 !py-3 rounded-2xl"
+              onClick={(e) => { e.stopPropagation(); setSelected(null); }}
             >
-              <X className="w-8 h-8" />
+              <X className="w-6 h-6" />
             </button>
 
             {/* Navigation Buttons */}
             {filteredImages.length > 1 && (
               <>
                 <button
-                  className="absolute left-8 top-1/2 -translate-y-1/2 text-white/80 hover:text-white transition-all bg-white/10 hover:bg-white/20 rounded-full p-4 z-50 transform hover:scale-110 hover:-translate-x-1 duration-300 shadow-xl"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handlePrev();
-                  }}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 z-50 clay-btn-secondary !px-4 !py-4 rounded-2xl"
+                  onClick={(e) => { e.stopPropagation(); handlePrev(); }}
                 >
-                  <ChevronLeft className="w-8 h-8" />
+                  <ChevronLeft className="w-7 h-7" />
                 </button>
                 <button
-                  className="absolute right-8 top-1/2 -translate-y-1/2 text-white/80 hover:text-white transition-all bg-white/10 hover:bg-white/20 rounded-full p-4 z-50 transform hover:scale-110 hover:translate-x-1 duration-300 shadow-xl"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleNext();
-                  }}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 z-50 clay-btn-secondary !px-4 !py-4 rounded-2xl"
+                  onClick={(e) => { e.stopPropagation(); handleNext(); }}
                 >
-                  <ChevronRight className="w-8 h-8" />
+                  <ChevronRight className="w-7 h-7" />
                 </button>
               </>
             )}

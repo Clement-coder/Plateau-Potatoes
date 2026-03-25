@@ -34,7 +34,7 @@ function App() {
           <Router>
             <Header />
             <Toaster />
-            <main className="container mx-auto p-4">
+            <main>
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/products" element={<Products />} />

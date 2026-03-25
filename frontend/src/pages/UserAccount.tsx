@@ -138,12 +138,12 @@ const UserAccount: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold text-gray-800 mb-8 text-center">My Account</h1>
+    <div className="clay-page px-4 py-10">
+      <h1 className="text-3xl font-extrabold text-gray-700 mb-8 text-center">My Account</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* Avatar Upload Section */}
-        <div className="md:col-span-1 bg-white p-6 rounded-lg shadow-md flex flex-col items-center">
+        <div className="md:col-span-1 clay-card flex flex-col items-center">
           {isCameraActive ? (
             <video ref={videoRef} className="w-32 h-32 rounded-full object-cover mb-4 border-2 border-green-500" autoPlay playsInline></video>
           ) : previewUrl ? (
@@ -163,14 +163,14 @@ const UserAccount: React.FC = () => {
               className="hidden"
               onChange={handleFileChange}
             />
-            <label htmlFor="avatarFile" className="w-full cursor-pointer bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition flex items-center justify-center">
+            <label htmlFor="avatarFile" className="w-full cursor-pointer bg-gradient-to-r from-green-600 to-emerald-600 text-white py-2 rounded-full font-bold shadow hover:scale-105 transition-all duration-300 flex items-center justify-center">
               <Upload className="w-5 h-5 mr-2" /> Choose File
             </label>
 
             <button
               onClick={handleCameraToggle}
-              className={`w-full py-2 rounded-lg transition flex items-center justify-center ${
-                isCameraActive ? 'bg-red-500 hover:bg-red-600 text-white' : 'bg-purple-500 hover:bg-purple-600 text-white'
+              className={`w-full py-2 rounded-full font-bold shadow transition-all duration-300 hover:scale-105 flex items-center justify-center ${
+                isCameraActive ? 'bg-white text-green-700 border-2 border-green-600/20' : 'bg-gradient-to-r from-green-600 to-emerald-600 text-white'
               }`}
             >
               <Camera className="w-5 h-5 mr-2" /> {isCameraActive ? 'Stop Camera' : 'Enable Camera'}
@@ -179,26 +179,25 @@ const UserAccount: React.FC = () => {
             {isCameraActive && (
               <button
                 onClick={capturePhoto}
-                className="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition flex items-center justify-center"
+                className="w-full bg-white text-green-700 border-2 border-green-600/20 py-2 rounded-full font-bold shadow-xl hover:scale-105 transition-all duration-300 flex items-center justify-center"
               >
                 <Camera className="w-5 h-5 mr-2" /> Capture Photo
               </button>
             )}
-            <canvas ref={canvasRef} style={{ display: 'none' }}></canvas> {/* Hidden canvas for photo capture */}
-
+            <canvas ref={canvasRef} style={{ display: 'none' }}></canvas>
 
             <button
               onClick={handleUploadAvatar}
               disabled={isUploadingAvatar || !selectedFile}
-              className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+              className="w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-2 rounded-full font-bold shadow hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:scale-100 flex items-center justify-center"
             >
               {isUploadingAvatar ? 'Uploading...' : 'Upload Avatar'}
             </button>
 
             {user.avatar && (
                 <button
-                    onClick={() => { /* Implement remove avatar logic */ toast('Remove avatar not implemented yet.'); }}
-                    className="w-full bg-gray-400 text-white py-2 rounded-lg hover:bg-gray-500 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                    onClick={() => { toast('Remove avatar not implemented yet.'); }}
+                    className="w-full bg-white text-green-700 border-2 border-green-600/20 py-2 rounded-full font-bold shadow hover:scale-105 transition-all duration-300 flex items-center justify-center"
                 >
                     <Trash2 className="w-5 h-5 mr-2" /> Remove Avatar
                 </button>
@@ -208,8 +207,8 @@ const UserAccount: React.FC = () => {
         </div>
 
         {/* User Profile Section */}
-        <div className="md:col-span-2 bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-2xl font-bold text-gray-700 mb-4">Profile Information</h2>
+        <div className="md:col-span-2 clay-card">
+          <h2 className="text-xl font-extrabold text-gray-700 mb-4">Profile Information</h2>
           <div className="space-y-3">
             <p className="text-gray-600"><strong>Name:</strong> {user.name}</p>
             <p className="text-gray-600"><strong>Email:</strong> {user.email}</p>
@@ -226,8 +225,8 @@ const UserAccount: React.FC = () => {
         </div>
 
         {/* Order History Section */}
-        <div className="md:col-span-3 bg-white p-6 rounded-lg shadow-md mt-8">
-          <h2 className="text-2xl font-bold text-gray-700 mb-4">Order History</h2>
+        <div className="md:col-span-3 clay-card mt-6">
+          <h2 className="text-xl font-extrabold text-gray-700 mb-4">Order History</h2>
           {isLoadingOrders ? (
             <div className="text-center py-4">Loading orders...</div>
           ) : ordersError ? (
@@ -237,7 +236,7 @@ const UserAccount: React.FC = () => {
           ) : orders && orders.length > 0 ? (
             <div className="space-y-4">
               {orders.map((order: any) => (
-                <div key={order._id} className="border border-gray-200 rounded-lg p-4">
+                <div key={order._id} className="clay-card !p-4">
                   <div className="flex justify-between items-center mb-2">
                     <p className="font-semibold">Order ID: {order._id.substring(0, 8)}...</p>
                     <p className={`px-2 py-1 rounded-full text-xs font-medium ${

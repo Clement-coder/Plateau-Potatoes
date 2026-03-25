@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Menu, X, ShoppingCart, LogOut, User as UserIcon, Edit } from 'lucide-react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Menu, X, ShoppingCart, LogOut, User as UserIcon, Edit, LogIn } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import toast from 'react-hot-toast';
@@ -10,9 +11,28 @@ const Header: React.FC = () => {
   const { isAuthenticated, user, logout } = useAuth();
   const { totalUniqueItems } = useCart();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
+  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+
+  const navLink = (to: string, label: string) => {
+    const active = pathname === to;
+    return (
+      <Link key={to} to={to}
+        className="relative px-4 py-2 rounded-2xl text-sm font-semibold transition-colors duration-150 z-10"
+        style={{ color: active ? 'white' : '#4b7a5e' }}
+      >
+        {active && (
+          <motion.div
+            layoutId="nav-pill"
+            className="absolute inset-0 rounded-2xl z-[-1]"
+            style={{ background: 'linear-gradient(135deg, #2cb67d, #1a9e68)', boxShadow: '4px 4px 10px rgba(44,182,125,0.35), -2px -2px 6px rgba(255,255,255,0.6)' }}
+            transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+          />
+        )}
+        {label}
+      </Link>
+    );
   };
 
   const handleLogout = () => {
@@ -23,118 +43,108 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className="bg-white text-gray-800 p-4 shadow-md sticky top-0 z-40">
-      <div className="container mx-auto flex justify-between items-center">
-        <Link to="/" className="text-2xl font-bold text-green-700">
-          <img src="/logo.png" alt="Plateau Potatoes NG Logo" className="h-8" />
+    <div className="px-3 pt-3 sticky top-0 z-40">
+    <header className="rounded-3xl px-6 py-4"
+      style={{ background: 'linear-gradient(135deg, #f5faf6, #edf7ef)', boxShadow: '8px 8px 20px rgba(163,177,198,0.45), -6px -6px 16px rgba(255,255,255,0.85)' }}>
+      <div className="max-w-7xl mx-auto flex justify-between items-center">
+        <Link to="/" className="text-2xl font-extrabold text-green-700 tracking-tight">
+          <img src="/logo.png" alt="Plateau Potatoes NG" className="h-9" onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
+          <span className="sr-only">Plateau Potatoes NG</span>
         </Link>
-        <nav className="hidden md:flex items-center space-x-6">
-          <Link to="/" className="hover:text-green-600 transition-colors duration-200">Home</Link>
-          <Link to="/products" className="hover:text-green-600 transition-colors duration-200">Products</Link>
-          <Link to="/gallery" className="hover:text-green-600 transition-colors duration-200">Gallery</Link>
-          
-          <Link to="/cart" className="relative hover:text-green-600 transition-colors duration-200">
-            <ShoppingCart className="w-6 h-6" />
-            {totalUniqueItems > 0 && (
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                {totalUniqueItems}
-              </span>
-            )}
+
+        {/* Nav links pill */}
+        <nav className="hidden md:flex items-center gap-0 p-1.5 rounded-2xl"
+          style={{ background: 'linear-gradient(135deg, #edf7ef, #e4f2e6)', boxShadow: 'inset 3px 3px 8px rgba(163,177,198,0.35), inset -2px -2px 6px rgba(255,255,255,0.7)' }}>
+          {navLink('/', 'Home')}
+          {navLink('/products', 'Products')}
+          {navLink('/gallery', 'Gallery')}
+        </nav>
+
+        {/* Actions pill */}
+        <div className="hidden md:flex items-center gap-2">
+
+          <Link to="/cart" className="relative">
+            <div className="clay-btn-secondary !px-3 !py-2">
+              <ShoppingCart className="w-5 h-5" />
+              {totalUniqueItems > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-400 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold shadow">
+                  {totalUniqueItems}
+                </span>
+              )}
+            </div>
           </Link>
 
           {isAuthenticated ? (
             <>
-              <Link to="/account" className="flex items-center hover:text-green-600 transition-colors duration-200">
-                <UserIcon className="w-5 h-5 mr-1" /> Account
+              <Link to="/account" className="clay-btn-secondary !px-4 !py-2 text-sm">
+                <UserIcon className="w-4 h-4" /> Account
               </Link>
               {user?.role === 'admin' && (
-                <>
-                  <Link to="/admin/products" className="flex items-center hover:text-green-600 transition-colors duration-200">
-                    <Edit className="w-5 h-5 mr-1" /> Admin Dashboard
-                  </Link>
-                  <Link to="/admin/products" className="flex items-center hover:text-green-600 transition-colors duration-200">
-                    <Edit className="w-5 h-5 mr-1" /> Admin Products
-                  </Link>
-                  <Link to="/admin/orders" className="flex items-center hover:text-green-600 transition-colors duration-200">
-                    <Edit className="w-5 h-5 mr-1" /> Admin Orders
-                  </Link>
-                </>
+                <Link to="/admin/products" className="clay-btn-secondary !px-4 !py-2 text-sm">
+                  <Edit className="w-4 h-4" /> Admin
+                </Link>
               )}
-              <button
-                onClick={handleLogout}
-                className="flex items-center text-red-600 hover:text-red-700 transition-colors duration-200 bg-red-100 px-3 py-1 rounded"
-              >
-                <LogOut className="w-5 h-5 mr-1" /> Logout
+              <button onClick={handleLogout} className="clay-btn-danger !px-4 !py-2 text-sm">
+                <LogOut className="w-4 h-4" /> Logout
               </button>
             </>
           ) : (
             <>
-              <Link to="/login" className="hover:text-green-600 transition-colors duration-200">Login</Link>
-              <Link to="/register" className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition-colors duration-200">Register</Link>
+              <Link to="/login" className="clay-btn-secondary !px-4 !py-2 text-sm">
+                <LogIn className="w-4 h-4" /> Login
+              </Link>
+              <Link to="/register" className="clay-btn !px-4 !py-2 text-sm">
+                Register
+              </Link>
             </>
           )}
-        </nav>
-        {/* Mobile menu button */}
-        <div className="md:hidden">
-          <button onClick={toggleMobileMenu} className="text-gray-800 focus:outline-none">
-            {isMobileMenuOpen ? <X className="w-7 h-7" /> : <Menu className="w-7 h-7" />}
-          </button>
         </div>
+
+        <button onClick={toggleMobileMenu} className="md:hidden clay-btn-secondary !px-3 !py-2">
+          {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
       </div>
 
-      {/* Mobile Navigation Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 bg-gray-800 bg-opacity-95 flex flex-col items-center justify-center space-y-8 z-50 animate-fade-in-down">
-          <button onClick={toggleMobileMenu} className="absolute top-4 right-4 text-white focus:outline-none">
-            <X className="w-8 h-8" />
+        <div className="md:hidden fixed inset-0 z-50 flex flex-col items-center justify-center gap-6"
+          style={{ background: 'linear-gradient(135deg, #e8f5e9, #f0f4f0)' }}>
+          <button onClick={toggleMobileMenu} className="absolute top-5 right-5 clay-btn-secondary !px-3 !py-2">
+            <X className="w-6 h-6" />
           </button>
-          <Link to="/" className="text-4xl font-bold text-white hover:text-green-400 transition-colors duration-200" onClick={toggleMobileMenu}>Home</Link>
-          <Link to="/products" className="text-4xl font-bold text-white hover:text-green-400 transition-colors duration-200" onClick={toggleMobileMenu}>Products</Link>
-          <Link to="/gallery" className="text-4xl font-bold text-white hover:text-green-400 transition-colors duration-200" onClick={toggleMobileMenu}>Gallery</Link>
-          
-          <Link to="/cart" className="relative text-4xl font-bold text-white hover:text-green-400 transition-colors duration-200" onClick={toggleMobileMenu}>
-            <ShoppingCart className="inline-block w-8 h-8 mr-2" /> Cart
-            {totalUniqueItems > 0 && (
-              <span className="absolute -top-2 right-0 bg-red-500 text-white text-base rounded-full h-7 w-7 flex items-center justify-center">
-                {totalUniqueItems}
-              </span>
-            )}
+          {[['/', 'Home'], ['/products', 'Products'], ['/gallery', 'Gallery']].map(([to, label]) => (
+            <Link key={to} to={to} className="text-3xl font-extrabold text-green-800 hover:text-green-600 transition-colors" onClick={toggleMobileMenu}>{label}</Link>
+          ))}
+          <Link to="/cart" className="clay-btn-secondary text-2xl font-bold !px-8 !py-4" onClick={toggleMobileMenu}>
+            <ShoppingCart className="w-6 h-6" /> Cart {totalUniqueItems > 0 && `(${totalUniqueItems})`}
           </Link>
-
           {isAuthenticated ? (
             <>
-              <Link to="/account" className="text-4xl font-bold text-white hover:text-green-400 transition-colors duration-200 flex items-center" onClick={toggleMobileMenu}>
-                <UserIcon className="w-8 h-8 mr-2" /> Account
+              <Link to="/account" className="clay-btn-secondary text-2xl font-bold !px-8 !py-4" onClick={toggleMobileMenu}>
+                <UserIcon className="w-6 h-6" /> Account
               </Link>
               {user?.role === 'admin' && (
-                <>
-                  <Link to="/admin/products" className="text-4xl font-bold text-white hover:text-green-400 transition-colors duration-200 flex items-center" onClick={toggleMobileMenu}>
-                    <Edit className="w-8 h-8 mr-2" /> Admin Dashboard
-                  </Link>
-                  <Link to="/admin/products" className="text-4xl font-bold text-white hover:text-green-400 transition-colors duration-200 flex items-center" onClick={toggleMobileMenu}>
-                    <Edit className="w-8 h-8 mr-2" /> Admin Products
-                  </Link>
-                  <Link to="/admin/orders" className="text-4xl font-bold text-white hover:text-green-400 transition-colors duration-200 flex items-center" onClick={toggleMobileMenu}>
-                    <Edit className="w-8 h-8 mr-2" /> Admin Orders
-                  </Link>
-                </>
+                <Link to="/admin/products" className="clay-btn-secondary text-2xl font-bold !px-8 !py-4" onClick={toggleMobileMenu}>
+                  <Edit className="w-6 h-6" /> Admin
+                </Link>
               )}
-              <button
-                onClick={handleLogout}
-                className="text-4xl font-bold text-red-400 hover:text-red-500 transition-colors duration-200 flex items-center"
-              >
-                <LogOut className="w-8 h-8 mr-2" /> Logout
+              <button onClick={handleLogout} className="clay-btn-danger text-2xl font-bold !px-8 !py-4">
+                <LogOut className="w-6 h-6" /> Logout
               </button>
             </>
           ) : (
             <>
-              <Link to="/login" className="text-4xl font-bold text-white hover:text-green-400 transition-colors duration-200" onClick={toggleMobileMenu}>Login</Link>
-              <Link to="/register" className="text-4xl font-bold bg-green-600 text-white px-6 py-3 rounded hover:bg-green-700 transition-colors duration-200" onClick={toggleMobileMenu}>Register</Link>
+              <Link to="/login" className="clay-btn-secondary text-2xl font-bold !px-8 !py-4" onClick={toggleMobileMenu}>
+                <LogIn className="w-6 h-6" /> Login
+              </Link>
+              <Link to="/register" className="clay-btn text-2xl font-bold !px-8 !py-4" onClick={toggleMobileMenu}>
+                Register
+              </Link>
             </>
           )}
         </div>
       )}
     </header>
+    </div>
   );
 };
 

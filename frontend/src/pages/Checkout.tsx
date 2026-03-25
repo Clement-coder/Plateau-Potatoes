@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
-import { AlertCircle, Info } from 'lucide-react';
+import { AlertCircle, Info, ShoppingBag, CheckCircle } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { ordersAPI } from '../services/api';
 import { nigerianStates } from '../utils/nigerianStates';
@@ -190,30 +190,30 @@ const Checkout: React.FC = () => {
 
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-50 py-8 px-4">
-      <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-6">
-        <h1 className="text-4xl font-bold text-gray-800 mb-8 text-center">Checkout</h1>
+    <div className="clay-page py-10 px-4">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-3xl font-extrabold text-gray-700 mb-8 text-center">Checkout</h1>
         
         {cartItems.length === 0 ? (
-          <div className="text-center py-10">
+          <div className="text-center py-10 clay-card">
             <h2 className="text-2xl font-semibold text-gray-700">Your cart is empty!</h2>
             <p className="text-gray-500 mt-2">Add some delicious Plateau potatoes to your cart to proceed to checkout.</p>
             <button
               onClick={() => navigate('/products')}
-              className="mt-6 bg-primary-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-700 transition"
+            className="mt-6 inline-flex items-center gap-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white px-8 py-4 rounded-full font-bold shadow-xl hover:scale-105 transition-all duration-300"
             >
-              Go to Products
+              <ShoppingBag className="w-5 h-5" /> Go to Products
             </button>
           </div>
         ) : (
           <>
             {/* Personal Information & Delivery */}
-            <div className="space-y-6 mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">Delivery Information</h2>
+            <div className="clay-card space-y-6 mb-6">
+              <h2 className="text-2xl font-extrabold text-gray-700 mb-4">Delivery Information</h2>
               
               {/* Full Name */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-gray-600 mb-2">
                   Full Name <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -236,7 +236,7 @@ const Checkout: React.FC = () => {
 
               {/* Email */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-gray-600 mb-2">
                   Email Address <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -259,7 +259,7 @@ const Checkout: React.FC = () => {
 
               {/* Phone */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-gray-600 mb-2">
                   Phone Number <span className="text-red-500">*</span>
                   <Tooltip text="Format: +234XXXXXXXXXX or 0XXXXXXXXXXX" />
                 </label>
@@ -299,7 +299,7 @@ const Checkout: React.FC = () => {
               {formData.isInternationalDelivery ? (
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-gray-600 mb-2">
                       Country <span className="text-red-500">*</span>
                     </label>
                     <input
@@ -320,7 +320,7 @@ const Checkout: React.FC = () => {
                     )}
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-gray-600 mb-2">
                       International Address <span className="text-red-500">*</span>
                     </label>
                     <textarea
@@ -344,7 +344,7 @@ const Checkout: React.FC = () => {
               ) : (
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-gray-600 mb-2">
                       State in Nigeria <span className="text-red-500">*</span>
                     </label>
                     <select
@@ -368,7 +368,7 @@ const Checkout: React.FC = () => {
                     )}
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-gray-600 mb-2">
                       Delivery Address <span className="text-red-500">*</span>
                     </label>
                     <textarea
@@ -393,8 +393,8 @@ const Checkout: React.FC = () => {
             </div>
 
             {/* Payment Method */}
-            <div className="space-y-4 mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">Payment Method</h2>
+            <div className="clay-card space-y-4 mb-6">
+              <h2 className="text-2xl font-extrabold text-gray-700 mb-4">Payment Method</h2>
               <div>
                 <label className="inline-flex items-center">
                   <input
@@ -430,8 +430,8 @@ const Checkout: React.FC = () => {
             </div>
 
             {/* Order Summary */}
-            <div className="bg-gray-50 p-6 rounded-lg border border-gray-200 mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">Order Summary</h2>
+            <div className="clay-card mb-8">
+              <h2 className="text-2xl font-extrabold text-gray-700 mb-4">Order Summary</h2>
               <div className="space-y-2">
                 {cartItems.map(item => (
                   <div key={item.product._id} className="flex justify-between text-gray-700">
@@ -447,7 +447,7 @@ const Checkout: React.FC = () => {
                   <span>Delivery Cost</span>
                   <span>₦{deliveryCost.toLocaleString()}</span>
                 </div>
-                <div className="flex justify-between font-bold text-xl text-primary-600 pt-2 border-t border-gray-300">
+                <div className="flex justify-between font-extrabold text-xl text-green-700 pt-2 border-t border-green-100">
                   <span>Total Payable</span>
                   <span>₦{(totalAmount + deliveryCost).toLocaleString()}</span>
                 </div>
@@ -458,14 +458,14 @@ const Checkout: React.FC = () => {
             <button
               onClick={handleSubmit}
               disabled={isSubmitting || cartItems.length === 0}
-              className="w-full bg-primary-600 text-white py-3 rounded-lg font-semibold hover:bg-primary-700 transition disabled:bg-gray-400 flex items-center justify-center"
+              className="w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-4 rounded-full font-bold shadow-xl hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:scale-100 flex items-center justify-center"
             >
               {isSubmitting ? (
                 <>
                   <Info className="w-5 h-5 mr-2 animate-spin" /> Placing Order...
                 </>
               ) : (
-                'Place Order'
+                <><CheckCircle className="w-5 h-5 mr-2" /> Place Order</>
               )}
             </button>
           </>

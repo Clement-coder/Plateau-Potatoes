@@ -2,11 +2,165 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@layer base {
+  body {
+    margin: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: #e8f0e9;
+  }
+}
+
+@layer components {
+  /* ── Clay Card ── */
+  .clay-card {
+    @apply rounded-3xl bg-white p-6;
+    box-shadow:
+      8px 8px 20px rgba(163, 177, 198, 0.55),
+      -6px -6px 16px rgba(255, 255, 255, 0.85);
+  }
+
+  .clay-card-green {
+    @apply rounded-3xl p-6;
+    background: linear-gradient(135deg, #d4edda, #c3e6cb);
+    box-shadow:
+      8px 8px 20px rgba(100, 160, 120, 0.35),
+      -6px -6px 16px rgba(255, 255, 255, 0.8);
+  }
+
+  /* ── Clay Button (Primary) ── */
+  .clay-btn {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-2xl font-bold text-white transition-all duration-200 cursor-pointer select-none;
+    background: linear-gradient(135deg, #2cb67d, #1a9e68);
+    box-shadow:
+      4px 4px 12px rgba(44, 182, 125, 0.45),
+      -3px -3px 8px rgba(255, 255, 255, 0.6),
+      inset 0 1px 0 rgba(255,255,255,0.25);
+  }
+  .clay-btn:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      6px 8px 18px rgba(44, 182, 125, 0.5),
+      -3px -3px 10px rgba(255, 255, 255, 0.7),
+      inset 0 1px 0 rgba(255,255,255,0.25);
+  }
+  .clay-btn:active {
+    transform: translateY(1px);
+    box-shadow:
+      inset 3px 3px 8px rgba(0,0,0,0.15),
+      inset -2px -2px 6px rgba(255,255,255,0.3);
+  }
+
+  /* ── Clay Button (Secondary / Outline) ── */
+  .clay-btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-2xl font-bold transition-all duration-200 cursor-pointer select-none;
+    background: linear-gradient(135deg, #f0faf4, #e0f5ea);
+    color: #1a9e68;
+    box-shadow:
+      4px 4px 12px rgba(163, 177, 198, 0.5),
+      -3px -3px 8px rgba(255, 255, 255, 0.85),
+      inset 0 1px 0 rgba(255,255,255,0.6);
+  }
+  .clay-btn-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      6px 8px 18px rgba(163, 177, 198, 0.55),
+      -3px -3px 10px rgba(255, 255, 255, 0.9);
+  }
+  .clay-btn-secondary:active {
+    transform: translateY(1px);
+    box-shadow:
+      inset 3px 3px 8px rgba(163, 177, 198, 0.4),
+      inset -2px -2px 6px rgba(255,255,255,0.5);
+  }
+
+  /* ── Clay Button (Danger) ── */
+  .clay-btn-danger {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-2xl font-bold text-white transition-all duration-200 cursor-pointer select-none;
+    background: linear-gradient(135deg, #ff6b6b, #ee5a5a);
+    box-shadow:
+      4px 4px 12px rgba(238, 90, 90, 0.4),
+      -3px -3px 8px rgba(255, 255, 255, 0.6);
+  }
+  .clay-btn-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 6px 8px 18px rgba(238, 90, 90, 0.5), -3px -3px 10px rgba(255,255,255,0.7);
+  }
+  .clay-btn-danger:active {
+    transform: translateY(1px);
+    box-shadow: inset 3px 3px 8px rgba(0,0,0,0.15);
+  }
+
+  /* ── Clay Input ── */
+  .clay-input {
+    @apply w-full px-4 py-3 rounded-2xl text-gray-700 outline-none transition-all duration-200;
+    background: #f0f4f0;
+    box-shadow:
+      inset 4px 4px 10px rgba(163, 177, 198, 0.5),
+      inset -3px -3px 8px rgba(255, 255, 255, 0.8);
+    border: none;
+  }
+  .clay-input:focus {
+    box-shadow:
+      inset 4px 4px 10px rgba(44, 182, 125, 0.2),
+      inset -3px -3px 8px rgba(255, 255, 255, 0.8),
+      0 0 0 3px rgba(44, 182, 125, 0.2);
+  }
+  .clay-input::placeholder { color: #9ca3af; }
+
+  /* ── Clay Input Wrapper (for icon+input combos) ── */
+  .clay-input-wrap {
+    @apply relative flex items-center;
+  }
+  .clay-input-wrap .clay-input {
+    @apply pl-10;
+  }
+  .clay-input-wrap .input-icon {
+    @apply absolute left-3 text-gray-400 pointer-events-none;
+  }
+
+  /* ── Clay Select ── */
+  .clay-select {
+    @apply clay-input appearance-none cursor-pointer;
+  }
+
+  /* ── Clay Badge ── */
+  .clay-badge {
+    @apply inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-semibold;
+    background: linear-gradient(135deg, #d4edda, #c3e6cb);
+    color: #1a7a4a;
+    box-shadow: 2px 2px 6px rgba(163,177,198,0.4), -2px -2px 5px rgba(255,255,255,0.8);
+  }
+
+  /* ── Clay Page Background ── */
+  .clay-page {
+    @apply min-h-screen;
+    background: linear-gradient(135deg, #e8f5e9 0%, #f0f4f0 50%, #e8f0e9 100%);
+  }
+
+  /* ── Clay Section ── */
+  .clay-section {
+    @apply py-16 px-4 sm:px-6 lg:px-8;
+  }
+
+  /* ── Clay Nav ── */
+  .clay-nav {
+    background: linear-gradient(135deg, #f5faf6, #edf7ef);
+    box-shadow:
+      0 4px 16px rgba(163, 177, 198, 0.45),
+      0 -2px 8px rgba(255, 255, 255, 0.7);
+  }
+
+  /* ── Clay Table ── */
+  .clay-table th {
+    @apply px-4 py-3 text-left text-sm font-bold text-green-800;
+    background: linear-gradient(135deg, #d4edda, #c3e6cb);
+  }
+  .clay-table td {
+    @apply px-4 py-3 text-sm text-gray-700 border-b border-green-50;
+  }
+  .clay-table tr:hover td {
+    background: rgba(44, 182, 125, 0.05);
+  }
 }

@@ -1,87 +1,71 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { ShoppingBag, Minus, Plus, Trash2, ArrowRight } from 'lucide-react';
 
 const Cart: React.FC = () => {
   const { items, updateQuantity, removeFromCart, totalAmount } = useCart();
 
   if (items.length === 0) {
     return (
-      <div className="container mx-auto px-4 py-8 text-center">
-        <h1 className="text-3xl font-bold mb-4">Your Cart is Empty</h1>
-        <Link to="/products" className="bg-primary-600 text-white px-6 py-3 rounded-lg">
-          Continue Shopping
-        </Link>
+      <div className="clay-page flex flex-col items-center justify-center min-h-[60vh] px-4">
+        <div className="clay-card text-center max-w-sm w-full">
+          <div className="text-6xl mb-4">🛒</div>
+          <h1 className="text-2xl font-extrabold text-gray-700 mb-2">Your Cart is Empty</h1>
+          <p className="text-gray-400 mb-6">Add some fresh potatoes to get started!</p>
+          <Link to="/products" className="clay-btn w-full justify-center py-4">
+            <ShoppingBag className="w-5 h-5" /> Continue Shopping
+          </Link>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Shopping Cart</h1>
-      
-      <div className="grid lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2">
-          {items.map((item) => (
-            <div key={item.product._id} className="bg-white rounded-lg shadow p-6 mb-4">
-              <div className="flex items-center space-x-4">
-                <div className="w-20 h-20 bg-gray-200 rounded flex items-center justify-center">
+    <div className="clay-page px-4 py-10">
+      <div className="max-w-5xl mx-auto">
+        <h1 className="text-3xl font-extrabold text-gray-700 mb-8">Shopping Cart</h1>
+        <div className="grid lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2 space-y-4">
+            {items.map((item) => (
+              <div key={item.product._id} className="clay-card flex items-center gap-4">
+                <div className="w-20 h-20 rounded-2xl flex items-center justify-center text-3xl flex-shrink-0"
+                  style={{ background: 'linear-gradient(135deg, #e8f5e9, #d4edda)', boxShadow: 'inset 3px 3px 8px rgba(163,177,198,0.3)' }}>
                   🥔
                 </div>
-                <div className="flex-1">
-                  <h3 className="font-semibold">{item.product.name}</h3>
-                  <p className="text-gray-600">{item.product.weight}</p>
-                  <p className="text-primary-600 font-bold">₦{item.product.price.toLocaleString()}</p>
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-bold text-gray-700 truncate">{item.product.name}</h3>
+                  <p className="text-gray-400 text-sm">{item.product.weight}</p>
+                  <p className="text-green-700 font-extrabold">₦{item.product.price.toLocaleString()}</p>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <button
-                    onClick={() => updateQuantity(item.product._id, item.quantity - 1)}
-                    className="bg-gray-200 px-2 py-1 rounded"
-                  >
-                    -
-                  </button>
-                  <span className="px-4">{item.quantity}</span>
-                  <button
-                    onClick={() => updateQuantity(item.product._id, item.quantity + 1)}
-                    className="bg-gray-200 px-2 py-1 rounded"
-                  >
-                    +
-                  </button>
+                <div className="flex items-center gap-2">
+                  <button onClick={() => updateQuantity(item.product._id, item.quantity - 1)}
+                    className="clay-btn-secondary !px-3 !py-2"><Minus className="w-3 h-3" /></button>
+                  <span className="w-8 text-center font-bold text-gray-700">{item.quantity}</span>
+                  <button onClick={() => updateQuantity(item.product._id, item.quantity + 1)}
+                    className="clay-btn-secondary !px-3 !py-2"><Plus className="w-3 h-3" /></button>
                 </div>
-                <button
-                  onClick={() => removeFromCart(item.product._id)}
-                  className="text-red-500 hover:text-red-700"
-                >
-                  Remove
+                <button onClick={() => removeFromCart(item.product._id)}
+                  className="clay-btn-danger !px-3 !py-2 flex-shrink-0">
+                  <Trash2 className="w-4 h-4" />
                 </button>
               </div>
-            </div>
-          ))}
-        </div>
-        
-        <div className="bg-white rounded-lg shadow p-6 h-fit">
-          <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
-          <div className="space-y-2 mb-4">
-            <div className="flex justify-between">
-              <span>Subtotal:</span>
-              <span>₦{totalAmount.toLocaleString()}</span>
-            </div>
-            <div className="flex justify-between">
-              <span>Delivery:</span>
-              <span>₦2,000</span>
-            </div>
-            <hr />
-            <div className="flex justify-between font-bold">
-              <span>Total:</span>
-              <span>₦{(totalAmount + 2000).toLocaleString()}</span>
-            </div>
+            ))}
           </div>
-          <Link
-            to="/checkout"
-            className="w-full bg-primary-600 text-white py-3 rounded-lg text-center block hover:bg-primary-700"
-          >
-            Proceed to Checkout
-          </Link>
+
+          <div className="clay-card h-fit">
+            <h2 className="text-xl font-extrabold text-gray-700 mb-5">Order Summary</h2>
+            <div className="space-y-3 mb-5">
+              {[['Subtotal', `₦${totalAmount.toLocaleString()}`], ['Delivery', '₦2,000'], ['Total', `₦${(totalAmount + 2000).toLocaleString()}`]].map(([label, val], i) => (
+                <div key={i} className={`flex justify-between ${i === 2 ? 'font-extrabold text-green-700 pt-3 border-t border-green-100 text-lg' : 'text-gray-500 text-sm'}`}>
+                  <span>{label}</span><span>{val}</span>
+                </div>
+              ))}
+            </div>
+            <Link to="/checkout" className="clay-btn w-full justify-center py-4">
+              Proceed to Checkout <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
         </div>
       </div>
     </div>
