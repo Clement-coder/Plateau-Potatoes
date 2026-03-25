@@ -45,9 +45,9 @@ const Header: React.FC = () => {
   };
 
   return (
-    <div className="px-3 pt-3 sticky top-0 z-40">
-    <header className="rounded-3xl px-6 py-4"
-      style={{ background: 'linear-gradient(135deg, var(--clay-nav-bg-start), var(--clay-nav-bg-end))', boxShadow: '8px 8px 20px var(--clay-shadow-dark), -6px -6px 16px var(--clay-shadow-light)' }}>
+    <div className="sm:px-3 sm:pt-3 sticky top-0 z-40">
+    <header className="rounded-none sm:rounded-3xl px-4 sm:px-6 py-3"
+      style={{ background: 'linear-gradient(135deg, var(--clay-nav-bg-start), var(--clay-nav-bg-end))', boxShadow: '0 4px 20px var(--clay-shadow-dark)' }}>
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         <Link to="/" className="text-2xl font-extrabold text-green-700 tracking-tight">
           <img src="/logo.png" alt="Plateau Potatoes NG" className="h-9" onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
@@ -102,52 +102,49 @@ const Header: React.FC = () => {
           )}
         </div>
 
-        <button onClick={toggleMobileMenu} className="md:hidden clay-btn-secondary !px-3 !py-2">
-          {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </button>
-
-        {/* Theme toggle */}
-        <button onClick={toggleTheme} title="Toggle theme"
-          className="relative flex-shrink-0 w-14 h-7 rounded-full transition-all duration-500 focus:outline-none"
-          style={{
-            background: theme === 'dark'
-              ? 'linear-gradient(135deg, #1a2e22, #0f1a14)'
-              : 'linear-gradient(135deg, #fde68a, #fbbf24)',
-            boxShadow: theme === 'dark'
-              ? '4px 4px 10px rgba(0,0,0,0.5), -2px -2px 6px rgba(44,182,125,0.1), inset 0 1px 3px rgba(0,0,0,0.3)'
-              : '4px 4px 10px rgba(251,191,36,0.4), -2px -2px 6px rgba(255,255,255,0.8), inset 0 1px 3px rgba(0,0,0,0.1)',
-          }}
-        >
-          {/* Track icons */}
-          <span className="absolute left-1.5 top-1/2 -translate-y-1/2 text-xs">☀️</span>
-          <span className="absolute right-1.5 top-1/2 -translate-y-1/2 text-xs">🌙</span>
-
-          {/* Thumb */}
-          <motion.div
-            layout
-            transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-            className="absolute top-0.5 w-6 h-6 rounded-full flex items-center justify-center text-sm shadow-lg"
+        {/* Right side: theme toggle + hamburger (mobile) */}
+        <div className="flex items-center gap-2 ml-auto md:ml-0">
+          <button onClick={toggleMobileMenu} className="md:hidden clay-btn-secondary !px-3 !py-2">
+            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+          <button onClick={toggleTheme} title="Toggle theme"
+            className="relative flex-shrink-0 w-14 h-7 rounded-full transition-all duration-500 focus:outline-none"
             style={{
-              left: theme === 'dark' ? 'calc(100% - 1.75rem)' : '0.125rem',
               background: theme === 'dark'
-                ? 'linear-gradient(135deg, #1e3a2a, #2cb67d)'
-                : 'linear-gradient(135deg, #fff7ed, #ffffff)',
+                ? 'linear-gradient(135deg, #1a2e22, #0f1a14)'
+                : 'linear-gradient(135deg, #fde68a, #fbbf24)',
               boxShadow: theme === 'dark'
-                ? '2px 2px 6px rgba(0,0,0,0.4), 0 0 8px rgba(44,182,125,0.4)'
-                : '2px 2px 6px rgba(251,191,36,0.3), 0 0 8px rgba(255,200,0,0.3)',
+                ? '4px 4px 10px rgba(0,0,0,0.5), -2px -2px 6px rgba(44,182,125,0.1), inset 0 1px 3px rgba(0,0,0,0.3)'
+                : '4px 4px 10px rgba(251,191,36,0.4), -2px -2px 6px rgba(255,255,255,0.8), inset 0 1px 3px rgba(0,0,0,0.1)',
             }}
           >
-            <motion.span
-              key={theme}
-              initial={{ rotate: -90, opacity: 0, scale: 0.5 }}
-              animate={{ rotate: 0, opacity: 1, scale: 1 }}
-              exit={{ rotate: 90, opacity: 0, scale: 0.5 }}
-              transition={{ duration: 0.25 }}
+            <span className="absolute left-1.5 top-1/2 -translate-y-1/2 text-xs">☀️</span>
+            <span className="absolute right-1.5 top-1/2 -translate-y-1/2 text-xs">🌙</span>
+            <motion.div
+              layout
+              transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+              className="absolute top-0.5 w-6 h-6 rounded-full flex items-center justify-center text-sm shadow-lg"
+              style={{
+                left: theme === 'dark' ? 'calc(100% - 1.75rem)' : '0.125rem',
+                background: theme === 'dark'
+                  ? 'linear-gradient(135deg, #1e3a2a, #2cb67d)'
+                  : 'linear-gradient(135deg, #fff7ed, #ffffff)',
+                boxShadow: theme === 'dark'
+                  ? '2px 2px 6px rgba(0,0,0,0.4), 0 0 8px rgba(44,182,125,0.4)'
+                  : '2px 2px 6px rgba(251,191,36,0.3), 0 0 8px rgba(255,200,0,0.3)',
+              }}
             >
-              {theme === 'dark' ? '🌙' : '☀️'}
-            </motion.span>
-          </motion.div>
-        </button>
+              <motion.span
+                key={theme}
+                initial={{ rotate: -90, opacity: 0, scale: 0.5 }}
+                animate={{ rotate: 0, opacity: 1, scale: 1 }}
+                transition={{ duration: 0.25 }}
+              >
+                {theme === 'dark' ? '🌙' : '☀️'}
+              </motion.span>
+            </motion.div>
+          </button>
+        </div>
       </div>
 
       {isMobileMenuOpen && (
