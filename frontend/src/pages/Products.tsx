@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { productsAPI } from '../services/api';
 import ProductCard from '../components/ProductCard';
-import { Search } from 'lucide-react';
-
 import ClaySelect from '../components/ClaySelect';
+import ProductSearch from '../components/ProductSearch';
 
 const Products: React.FC = () => {
   const [filters, setFilters] = useState({ category: '', search: '', page: 1 });
@@ -24,12 +23,7 @@ const Products: React.FC = () => {
         <h1 className="text-3xl font-extrabold text-gray-700 mb-8">Our Products</h1>
 
         <div className="clay-card mb-8 flex flex-wrap gap-4">
-          <div className="relative flex-1 min-w-64">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-            <input type="text" placeholder="Search products..." value={filters.search}
-              onChange={(e) => set('search', e.target.value)}
-              className="clay-input pl-10" />
-          </div>
+          <ProductSearch value={filters.search} onChange={(v) => set('search', v)} />
           <ClaySelect
             value={filters.category}
             onChange={(v) => set('category', v)}
