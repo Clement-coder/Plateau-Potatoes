@@ -28,7 +28,7 @@ const Home = () => {
 
       {/* ── HERO ── */}
       <section className="relative min-h-screen flex items-center overflow-hidden px-6 py-10"
-        style={{ background: 'linear-gradient(150deg, #f0fdf4 0%, #e8f5e9 100%)' }}>
+        style={{ background: 'linear-gradient(150deg, var(--clay-hero-bg-start) 0%, var(--clay-hero-bg-end) 100%)' }}>
 
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute w-[420px] h-[420px] rounded-full blur-3xl opacity-25"
@@ -53,10 +53,10 @@ const Home = () => {
                 Potatoes
               </span>
               <br />
-              <span className="text-gray-600 text-3xl sm:text-4xl md:text-5xl font-bold">Delivered Daily</span>
+              <span className="text-gray-600 text-3xl sm:text-4xl md:text-5xl font-bold" style={{ color: 'var(--clay-text-muted)' }}>Delivered Daily</span>
             </h1>
 
-            <p className="text-lg text-gray-500 mb-10 max-w-lg font-light leading-relaxed">
+            <p className="text-lg mb-10 max-w-lg font-light leading-relaxed" style={{ color: 'var(--clay-text-muted)' }}>
               Premium quality potatoes from Nigeria's finest farms,{' '}
               <span className="font-semibold text-green-700">delivered fresh</span> to your doorstep
             </p>
@@ -86,15 +86,15 @@ const Home = () => {
           {/* RIGHT — visual card */}
           <div className="flex items-center justify-center">
             <div className="clay-card w-full max-w-sm text-center py-12"
-              style={{ background: 'linear-gradient(135deg, #d4edda, #c3e6cb)', boxShadow: '10px 10px 28px rgba(44,182,125,0.25), -6px -6px 18px rgba(255,255,255,0.9)' }}>
+              style={{ background: 'linear-gradient(135deg, var(--clay-surface), var(--clay-surface-2))', boxShadow: '10px 10px 28px var(--clay-shadow-dark), -6px -6px 18px var(--clay-shadow-light)' }}>
               <div className="text-8xl mb-6">🥔</div>
-              <h3 className="text-2xl font-extrabold text-green-900 mb-2">Farm to Doorstep</h3>
-              <p className="text-green-700 text-sm leading-relaxed mb-6">Handpicked from the cool highlands of Jos Plateau, packed fresh and shipped to you.</p>
+              <h3 className="text-2xl font-extrabold mb-2" style={{ color: 'var(--clay-text)' }}>Farm to Doorstep</h3>
+              <p className="text-sm leading-relaxed mb-6" style={{ color: 'var(--clay-text-muted)' }}>Handpicked from the cool highlands of Jos Plateau, packed fresh and shipped to you.</p>
               <div className="grid grid-cols-2 gap-3">
                 {[['5,000+', 'Customers'], ['15', 'States'], ['99%', 'Satisfaction'], ['48hr', 'Delivery']].map(([n, l]) => (
                   <div key={l} className="clay-card !p-3">
-                    <div className="text-xl font-extrabold text-green-800">{n}</div>
-                    <div className="text-xs text-gray-500">{l}</div>
+                    <div className="text-xl font-extrabold text-green-600">{n}</div>
+                    <div className="text-xs" style={{ color: 'var(--clay-text-muted)' }}>{l}</div>
                   </div>
                 ))}
               </div>
@@ -208,14 +208,13 @@ const Home = () => {
       <section className="clay-section pt-0">
         <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-6">
           {/* Retailer */}
-          <div className="clay-card group hover:-translate-y-1 transition-transform duration-200"
-            style={{ background: 'linear-gradient(135deg, #f0fdf4, #e8f5e9)', boxShadow: '8px 8px 20px rgba(163,177,198,0.45), -6px -6px 16px rgba(255,255,255,0.9)' }}>
+          <div className="clay-card group hover:-translate-y-1 transition-transform duration-200">
             <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-5 text-white"
               style={{ background: 'linear-gradient(135deg, #2cb67d, #1a9e68)', boxShadow: '4px 4px 14px rgba(44,182,125,0.4)' }}>
               <Building2 className="w-7 h-7 anim-building" />
             </div>
-            <h3 className="text-2xl font-extrabold text-green-900 mb-2">Are You a Retailer?</h3>
-            <p className="text-green-700 text-sm leading-relaxed mb-6">Join 50+ retail partners getting bulk supply at wholesale prices. Consistent stock, reliable delivery.</p>
+            <h3 className="text-2xl font-extrabold mb-2" style={{ color: 'var(--clay-text)' }}>Are You a Retailer?</h3>
+            <p className="text-sm leading-relaxed mb-6" style={{ color: 'var(--clay-text-muted)' }}>Join 50+ retail partners getting bulk supply at wholesale prices. Consistent stock, reliable delivery.</p>
             <a href="/register" className="clay-btn w-fit">
               <Users className="w-4 h-4" /> Become a Partner
             </a>

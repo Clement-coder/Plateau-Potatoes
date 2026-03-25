@@ -39,11 +39,11 @@ const ClaySelect: React.FC<ClaySelectProps> = ({ value, onChange, options, place
         onClick={() => setOpen(o => !o)}
         className="w-full flex items-center justify-between gap-3 px-4 py-3 rounded-2xl font-semibold text-sm transition-all duration-200 text-left"
         style={{
-          background: open ? 'linear-gradient(135deg, #2cb67d, #1a9e68)' : 'linear-gradient(135deg, #f0faf4, #e0f5ea)',
-          color: open ? 'white' : '#1a9e68',
+          background: open ? 'linear-gradient(135deg, #2cb67d, #1a9e68)' : 'linear-gradient(135deg, var(--clay-surface), var(--clay-surface-2))',
+          color: open ? 'white' : 'var(--clay-text-green)',
           boxShadow: open
             ? '4px 4px 12px rgba(44,182,125,0.4), -2px -2px 6px rgba(255,255,255,0.5)'
-            : '4px 4px 12px rgba(163,177,198,0.45), -3px -3px 8px rgba(255,255,255,0.85)',
+            : '4px 4px 12px var(--clay-shadow-dark), -3px -3px 8px var(--clay-shadow-light)',
         }}
       >
         <span>{selected ? selected.label : placeholder}</span>
@@ -60,7 +60,7 @@ const ClaySelect: React.FC<ClaySelectProps> = ({ value, onChange, options, place
             exit={{ opacity: 0, y: -8, scale: 0.97 }}
             transition={{ type: 'spring', stiffness: 300, damping: 25 }}
             className="absolute z-50 w-full mt-2 rounded-2xl overflow-hidden"
-            style={{ boxShadow: '8px 8px 20px rgba(163,177,198,0.5), -4px -4px 12px rgba(255,255,255,0.8)', background: '#f5faf6' }}
+            style={{ boxShadow: '8px 8px 20px var(--clay-shadow-dark), -4px -4px 12px var(--clay-shadow-light)', background: 'var(--clay-surface)' }}
           >
             {/* Search */}
             <div className="p-2 border-b border-green-100">
@@ -73,7 +73,7 @@ const ClaySelect: React.FC<ClaySelectProps> = ({ value, onChange, options, place
                   onChange={e => setSearch(e.target.value)}
                   placeholder="Search..."
                   className="w-full pl-8 pr-3 py-2 text-sm rounded-xl outline-none font-medium text-gray-600 placeholder-gray-400"
-                  style={{ background: '#edf7ef', boxShadow: 'inset 2px 2px 6px rgba(163,177,198,0.35), inset -2px -2px 4px rgba(255,255,255,0.7)' }}
+                  style={{ background: 'var(--clay-surface-2)', boxShadow: 'inset 2px 2px 6px var(--clay-inset-dark), inset -2px -2px 4px var(--clay-inset-light)' }}
                 />
               </div>
             </div>
@@ -90,7 +90,7 @@ const ClaySelect: React.FC<ClaySelectProps> = ({ value, onChange, options, place
                     type="button"
                     onClick={() => { onChange(opt.value); setOpen(false); setSearch(''); }}
                     className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold transition-colors duration-150 text-left"
-                    style={{ color: active ? '#1a9e68' : '#4b7a5e', background: active ? 'rgba(44,182,125,0.08)' : 'transparent' }}
+                    style={{ color: active ? '#2cb67d' : 'var(--clay-text-green)', background: active ? 'rgba(44,182,125,0.08)' : 'transparent' }}
                     onMouseEnter={e => { if (!active) (e.currentTarget as HTMLElement).style.background = 'rgba(44,182,125,0.05)'; }}
                     onMouseLeave={e => { if (!active) (e.currentTarget as HTMLElement).style.background = active ? 'rgba(44,182,125,0.08)' : 'transparent'; }}
                   >

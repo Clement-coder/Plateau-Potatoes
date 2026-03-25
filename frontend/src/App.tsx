@@ -26,9 +26,12 @@ import Footer from './components/Footer';
 
 const queryClient = new QueryClient();
 
+import { ThemeProvider } from './context/ThemeContext';
+
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
+      <ThemeProvider>
       <AuthProvider>
         <CartProvider>
           <Router>
@@ -65,6 +68,7 @@ function App() {
           </Router>
         </CartProvider>
       </AuthProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }
